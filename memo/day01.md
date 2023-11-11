@@ -1,34 +1,3 @@
-### IoC(Inversion of Control)
-
-### 스프링 컨테이너
-
-### Bean
-
-- `@Component`
-- `@Mapper`
-- `@Repository`
-- `@Service`
-- `@Controller`
-- `@Configuration`
-- `@Bean`
-
-### DI (Dependency Injection)
-
-### 3-Layer
-
-### Spring MVC
-
-### 컨트롤러
-
-- `@RequestParam`
-- `@RequestBody`
-- `@ResponseBody`
-- `@RestController`
-
-### Transaction
-
-### AOP
-
 # JPA
 
 ## 객체와 페러다임 불일치 문제
@@ -62,3 +31,50 @@ Extends ER모델
   | 번호(fk,pk) | 번호(fk,pk) |
   |    학년     |    경력     |
   |    등급     |    직급     |
+
+2. 연관관계
+- 테이블의 연관관계   
+  테이블은 서로 FK를 이용하여 관계를 맺는다.    
+  FK를 사용하여 다른 테이블과 JOIN 하여 연관된 테이블을 조회한다.
+
+- 객체의 연관관계   
+  객체의 연관관계는 참조값을 통해 이루어진다. 참조값에 하위 연산자를 사용하면 참조가 된다. 그러므로 연관관계를 위해 뢰래키를 저장하는 것이 아니라 해당 객체의 참조값을 저장해야 한다.
+
+3. 그래프 탐색   
+   그래프 탐색이란 객체지향에서 사용되는 개념이다.    
+   자바코드를 기준으로 게시글 을 쓴 작성자를 찾고 싶다면 해당 Board객체와 연관된 User객체를 찾아야한다.   
+   이것을 객체그래프 탐색이라고 하며 다음과 같이 찾을 수 있다.
+   ```java
+   User user = board.getUser();
+   ```
+    SQL을 사용하면 쿼리에 따라 객체 그ㅐ프 탐색 범위가 정해진다. 만약 Board테이블과 User테이블만 Join하여 조회를 했다면 `board.getUser().getUserProfile();`은 Null이 나올것이다. 그러므로 SQL을 개발자가 직접 사용한다면 쿼리가 적혀있는 Mapper.xml파일을 확인하지 않는이상 객체의 탐색범위를 확신할 수 없다.
+
+4. 비교   
+   SQL에서 조회한 결과를 객체에 저장하면 같은 데이터를 조회하더라도 새로운 객체가 만들어지게 된다.   
+   그렇기 때문에 객체의 주소가 다르며 ==를 통해 비교를 하면 같은 정보를 담고 있어도 false가 된다.
+
+## ORM (Object Relational Mapping)
+객체지향 언어와 관계형 DB와의 데이터를 매핑해주는 기술   
+객체지향 언어와 관계형 DB는 서로 단른 구조를 가지고 있기 때문에 자바가 가지는 여러 이점을 제대로 사용할 수 없다.   
+이를 해결하고자 나온 기술이 테이블과 객체를 매핑시켜주는 ORM이다.
+
+## Hibernate Framework
+ORM기술을 구현해 놓은 오픈소스 프레임워크이다.
+
+## JPA (Java Persistence API)
+자바에서 ORM을 사용하기 위한 표준API(자바 전용)   
+JPA는 인터페이스를 제공하는 역할을하며 실질적인 ORM기술을 구현해 놓은것은 Hibernate같은 ORM프레임 워크이이다.
+
+## Spring Data JPA
+JPA를 기반으로 만든 모듈이다.   
+Repository라는 인터페이스를 제공하여 DB와의 상호작용을 더 쉽고 간결하게 만들어준다.   
+내부적으로는 JPA를 사용하기 때문에 JPA에 대한 선행학습이 필요하다.
+
+
+
+
+
+
+
+
+
