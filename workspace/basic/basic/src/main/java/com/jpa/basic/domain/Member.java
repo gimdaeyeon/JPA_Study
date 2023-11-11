@@ -1,0 +1,26 @@
+package com.jpa.basic.domain;
+
+import com.jpa.basic.domain.type.MemberGender;
+import org.hibernate.annotations.Check;
+
+import javax.persistence.*;
+
+@Entity //Entity로 등록한다. 테이블 이름은 Entity의 이름과 도일하게 만들어진다.
+// 엔티티를 만드는 순간 어류가 나는 이유는 테이블을 만들 때 반드시 필요한 Pk가 없기 때문
+// 엔티티는 기본생성자 필수
+@Table(name = "JPA_MEMBER") // 테이블 이름을 별도로 설정해줄 수 있다.
+public class Member {
+    @Id // 해당 필드를 pk컬럼으로 등록한다.
+//  @GeneratedValue를 사용하면 해당 컬럼이 자동 증가되는 값이 들어가게 된다.
+//  AUTO : 자동으로 하이버네이트가 해당 DBMS에 맞게 설정해주어 이 값이 디폴트
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "MEMBER_ID" )
+    Long id;
+    String name;
+    @Column(unique = true)
+    String email;
+    String password;
+    int age; // 필드의 타입을 원시타입으로 설정할 경우 자동으로 notNull로 설정된다
+    @Enumerated(EnumType.STRING)
+    MemberGender memberGender;
+}
