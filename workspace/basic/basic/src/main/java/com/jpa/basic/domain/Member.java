@@ -1,7 +1,8 @@
 package com.jpa.basic.domain;
 
 import com.jpa.basic.domain.type.MemberGender;
-import org.hibernate.annotations.Check;
+import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 // 엔티티를 만드는 순간 어류가 나는 이유는 테이블을 만들 때 반드시 필요한 Pk가 없기 때문
 // 엔티티는 기본생성자 필수
 @Table(name = "JPA_MEMBER") // 테이블 이름을 별도로 설정해줄 수 있다.
+@Data
 public class Member {
     @Id // 해당 필드를 pk칼럼으로 등록한다.
 //  @GeneratedValue를 사용하면 해당 칼럼에 자동 증가되는 값이 들어가게 된다.
@@ -16,14 +18,14 @@ public class Member {
 //  IDENTITY : AUTO_INCREMENT를 사용하는 MySQL, IDENTITY를 사용하는 MS SQL의 기본키 생성 전략
 //  SEQUENCE : 오라클, PostgreSQL등  시퀀스 객체를 사용하는 기본키 생성 전략
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "MEMBER_ID" )
-    Long id;
-    String name;
+    @Column(name = "MEMBER_ID")
+    private Long id;
+    private String name;
     @Column(unique = true)
-    String email;
-    String password;
-    int age; // 필드의 타입을 원시타입으로 설정할 경우 자동으로 notNull로 설정된다
+    private String email;
+    private String password;
+    private int age; // 필드의 타입을 원시타입으로 설정할 경우 자동으로 notNull로 설정된다
     @Enumerated(EnumType.STRING)
-    MemberGender memberGender;
+    private MemberGender memberGender;
 
 }
