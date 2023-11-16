@@ -1,4 +1,4 @@
-<img src="../resource/영속성_컨텍스트2.png" width="70%" height="70%">
+<img src="./자료/영속성_컨텍스트2.png" width="70%" height="70%">
 
 ## 엔티티의 상태
 1. 영속   
@@ -21,8 +21,3 @@
 - entityManager.maerge(entity)   
   매개변수로 전달받은 엔티티를 영속상태로 만든다.   
   이 때 매겨변수의 엔티티는 준영속, 비영속 상태 둘 다 가능하다.
-
-|user|board|
-|:--:|:--:|
-|번호(pk)|번호(pk)|
-|아이디|제목|
