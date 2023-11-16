@@ -79,14 +79,61 @@ class MemberTest {
         member.setPassword("1234");
         member.setName("김철수");
 
+//        select쿼리를 보기 위해서는 우리가 persist()로 영속성 컨텍스트에 보낸 엔티티와 Insert쿼리를 실행시켜 DB에 반영하면 된다.
+//        즉, 강제로 flush()를 시켜줘야한다.
         entityManager.persist(member);
+
+        entityManager.flush();
+//        실행해보면 여전히 select쿼리는 보이지 않는다.
+//        이유는 우리가 flush()를 하여도 엔티티는 여전히 영속성 컨테스트에 남아있기 때문이다.(flush()가 영속성 컨텍스트를 비워주지 않는다.!!)
+//        그렇기 때문에 우리는 영속성 컨텍스트를 비워주어야 select를 볼 수 있다.
+
+//        entityManager.clear();    //전체 영속성 컨텍스트를 비워준다.
+        entityManager.detach(member);   //특정 엔티티만 영속성 컨텍스트에서 제외시킬 때 사용
+//        이렇게 저장되었다가 분리된 엔티티의 상태를 준영속 상태라고 한다.
 
         Member member1 = entityManager.find(Member.class,1L);
 
         log.info("result :{}",member1);
         log.info("같니? : {}",member == member1);
-//        강의시간 01:59:12
+    }
+    @Test
+    void update(){
+        Member member = entityManager.find(Member.class,1L);
+//        update쿼리를 실행시킬 때는 별도의 메소드가 존재하지 않는다.
+//        영속상태의 엔티티의 데이터를 수정하게 되면 자동으로 update가 된다.
+//        영속상태의 엔티티가 처음 등록될 때의 상태값을 스냅샷으로 저장하고 flush가 될때 현재 상태의 값과 비교하여
+//        자동 update가 된다. 이를 변경감지(dirty checking)이라고 한다.
+        member.setName("홍길동");
+    }
+    @Test
+    void delete(){
+        Member member = entityManager.find(Member.class,1L);
+        entityManager.remove(member);
+    }
+    @Test
+    void merge(){
+        Member foundMember = entityManager.find(Member.class, 2L); // 영속상태
+        entityManager.detach(foundMember); //준영속
+
+        foundMember.setName("아무무");
+
+        Member mergedMember = entityManager.merge(foundMember);
+
+        mergedMember.setName("나서스");
+
     }
 
 
+
+
 }
+
+
+
+
+
+
+
+
+
