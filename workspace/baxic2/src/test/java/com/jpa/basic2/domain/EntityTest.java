@@ -58,18 +58,31 @@ class EntityTest {
         Board board1 = new Board();
         board1.setTitle("ㅎㅇ");
         board1.setContent("방가뵹");
-
         board1.setUser(user);
 
         Board board2 = new Board();
         board2.setTitle("ㅎㅇ2");
         board2.setContent("방가뵹2");
-
         board2.setUser(user);
 
         entityManager.persist(user);
         entityManager.persist(board1);
         entityManager.persist(board2);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        User foundUser = entityManager.find(User.class, 1L);
+        List<Board> boardList = foundUser.getBoard();
+        boardList.forEach(System.out::println);
+
+        Board newBoard = new Board();
+        newBoard.setTitle("test");
+        newBoard.setContent("testContent");
+        boardList.add(newBoard);
+//       연관관계의 주인이 아닌 boardList를 통해
+//       데이터를 추가하는 것은 불가능하다.(오류 안나고 무시)
+
     }
 //
 //    @Test
