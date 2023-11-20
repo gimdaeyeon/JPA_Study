@@ -1,5 +1,6 @@
 package com.jpa.basic2.domain;
 
+import com.jpa.basic2.domain.id.OrderId;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,20 @@ class EntityTest2 {
         order.setAmount(10);
 
         entityManager.persist(order);
+    }
+
+    @Test
+    void find(){
+        OrderId orderId = new OrderId();
+        orderId.setMember(1L);
+        orderId.setProduct(1L);
+//      복합키(조합키)를 사용하는 경우 별도로 만든 식별자 클래스르 이용한다.
+        Order order = entityManager.find(Order.class,orderId);
+        
+        String addr = order.getMember().getAddress();
+        System.out.println("addr = " + addr);
+
+
     }
 
 
