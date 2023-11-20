@@ -12,9 +12,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "JPA_USER")
-@Getter @Setter @ToString
+@Getter @Setter @ToString(exclude = "boards")
+@SequenceGenerator(name = "SEQ_USER_GENERATOR" , sequenceName = "SEQ_JPA_USER")
 public class User extends Period {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(generator = "SEQ_USER_GENERATOR")
+    @Column(name = "USER_ID")
     private Long id;
     private String loginId;
     private String password;

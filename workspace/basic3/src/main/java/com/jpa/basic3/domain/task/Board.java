@@ -11,14 +11,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "JPA_BOARD")
 @Getter @Setter
-@ToString(exclude = "user")
+@ToString
+@SequenceGenerator(name = "SEQ_BOARD_GENERATOR" , sequenceName = "SEQ_JPA_BOARD")
 public class Board extends Period {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(generator = "SEQ_BOARD_GENERATOR")
     private Long id;
     private String title;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
     private User user;
- 
+
 }

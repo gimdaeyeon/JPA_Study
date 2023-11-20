@@ -77,3 +77,13 @@
 3. 구현 클래스마다 테이블 전략(Table Per Class)  
    일반적인 RDB를 설계하는 방식이다.  
    단점이 많아 추천하지 않는다.
+
+
+# JPA 기본 fetch 전략
+- @ManyToOne, @OneToOne   
+  즉시 로딩이 디폴트
+- @OneToMany, @ManyToMany   
+  지연 로딩이 디폴트
+
+정말 자주 같이 사용되는 관계가 아니라면 지연로딩을 설정하여 사용하는것이 좋다.   
+
