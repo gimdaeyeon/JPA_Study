@@ -22,6 +22,9 @@ public class User extends Period {
     private String password;
     private int age;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL
+//     orphanRemoval = true -> 고아객체가 생겼을 때 자동으로 삭제한다.
+//     orphanRemoval를 사용할 떄는 케스케이드를 ALL이나 Persist로 설정을 해야한다(Hibernate 버그)
+            ,orphanRemoval = true)
     List<Board> boards = new ArrayList<>();
 }

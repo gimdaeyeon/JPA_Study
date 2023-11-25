@@ -19,7 +19,7 @@ public class Board extends Period {
     private String title;
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "USER_ID")
     private User user;
 
