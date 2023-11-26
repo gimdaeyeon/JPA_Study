@@ -127,11 +127,5 @@ class MemberTest {
 
     }
 
-//    @Test
-//    void test(){
-//        List<Member> resultList = entityManager.createQuery("SELECT m.id, m.name FROM Member m WHERE m.name ='김철수'", Member.class).getResultList();
-//        resultList.forEach(System.out::println);
-//    }
-
 
 }
