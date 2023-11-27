@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "JPA_USER")
@@ -18,6 +20,8 @@ import org.hibernate.annotations.ColumnDefault;
         name = "SEQ_USER_GENERATOR",
         sequenceName = "SEQ_JPA_USER"
 )
+@DynamicInsert // 필드에 null이 들어가 있다면 INSERT쿼리에서 해당 필드를 제외한다.
+@DynamicUpdate // 필드에 null이 들어가 있다면 UPDATE쿼리에서 해당 필드를 제외한다.
 public class User extends Period {
     @Id
     @GeneratedValue(generator = "SEQ_USER_GENERATOR")
