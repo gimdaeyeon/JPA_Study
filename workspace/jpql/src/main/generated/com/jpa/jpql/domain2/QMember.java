@@ -24,6 +24,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.jpa.jpql.embedded.QAddress address;
 
+    public final ListPath<Board, QBoard> boards = this.<Board, QBoard>createList("boards", Board.class, QBoard.class, PathInits.DIRECT2);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
