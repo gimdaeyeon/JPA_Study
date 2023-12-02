@@ -18,6 +18,7 @@ public class UserService {
         checkDuplicateUser(user.getLoginId());
         return userRepository.save(user);
     }
+    @Transactional(readOnly = true)
     public Long login(String loginId,String password){
         return userRepository.findByLoginIdAndPassword(loginId,password)
                 .orElseThrow(()->new IllegalStateException("존재하지 않는 회원 정보입니다."));
@@ -28,6 +29,8 @@ public class UserService {
      * @param loginId
      * @throws DuplicateUserException
      */
+
+    @Transactional(readOnly = true)
     public void checkDuplicateUser(String loginId) throws DuplicateUserException {
         Optional<User> foundUser = userRepository.findByLoginId(loginId);
 

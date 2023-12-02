@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -38,6 +39,7 @@ public class UserController {
             url = "/user/join";
             e.printStackTrace();
         }
+        System.out.println("user = " + user);
 
         return new RedirectView(url);
     }
@@ -46,7 +48,7 @@ public class UserController {
     public void login(){}
 
     @PostMapping("/login")
-    public RedirectView login(String userLoginId, String userPassword, HttpServletRequest req){
+    public RedirectView login(@RequestParam("userLoginId") String userLoginId, @RequestParam("userPassword")String userPassword, HttpServletRequest req){
 
         Long userId = userService.login(userLoginId, userPassword);
         req.getSession().setAttribute("userId",userId);

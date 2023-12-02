@@ -1,12 +1,29 @@
 package com.jpa.task.controller;
 
+import com.jpa.task.domain.entity.User;
+import com.jpa.task.exception.DuplicateUserException;
+import com.jpa.task.service.UserService;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //Junit을 사요할 때 스프링 컨테이너의 일부 기느을 사용할 수 있는 확장기능
 @ExtendWith(SpringExtension.class)
@@ -16,5 +33,24 @@ class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @MockBean
+    UserService userService;
+
+    @Test
+    void join() throws Exception {
+//        given
+        doReturn(new User()).when(userService).join(any(User.class));
+//        when
+        mockMvc.perform(
+                post("/user/join")
+                        .param("loginId","test")
+                        .param("password","1234")
+                        .param("name","test")
+        ).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/user/login"))
+                .andDo(print());
+//        then
+
+    }
 
 }
