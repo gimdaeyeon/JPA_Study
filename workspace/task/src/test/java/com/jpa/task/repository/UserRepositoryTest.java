@@ -5,6 +5,8 @@ import com.jpa.task.domain.entity.User;
 import com.jpa.task.domain.enumType.UserGender;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Transactional @Commit
+@Transactional
 class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
@@ -50,7 +52,27 @@ class UserRepositoryTest {
 
         assertThat(user.getLoginId()).isEqualTo("aaa");
     }
+    @Test
+    @DisplayName("아이디로 조회")
+    void findByLoginId(){
+        Optional<User> foundUser = userRepository.findByLoginId("aaa");
+        foundUser.ifPresentOrElse(
+                user->assertThat(user.getName()).isEqualTo("홍길동"),
+//                fail이 실행되면 해당테스트 실패
+                ()->fail("테스트 실패")
+        );
+    }
+    @Test
+    @DisplayName("로그인 처리")
+    void findByLoginIdAndPassword(){
+        Optional<Long> foundId = userRepository.findByLoginIdAndPassword("aaa", "1234");
 
+        foundId.ifPresentOrElse(
+                id->assertThat(id).isEqualTo(4L),
+                ()->fail("테스트 실패")
+        );
+
+    }
 
 
 
