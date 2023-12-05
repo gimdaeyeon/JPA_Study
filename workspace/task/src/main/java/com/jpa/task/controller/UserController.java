@@ -53,7 +53,7 @@ public class UserController {
         Long userId = userService.login(userLoginId, userPassword);
         req.getSession().setAttribute("userId",userId);
 
-        return new RedirectView("/board/list");
+        return new RedirectView("/board/list/1");
     }
 
 

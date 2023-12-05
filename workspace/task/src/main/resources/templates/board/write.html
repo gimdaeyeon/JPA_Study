@@ -32,11 +32,11 @@
 <body>
 <fieldset>
     <legend>커뮤니티 글쓰기</legend>
-    <form action="/board/write" method="post">
+    <form th:action="@{/board/write}" method="post">
         <h3>제목</h3>
-        <input type="text" name="boardTitle" id=""> <br> <br>
+        <input type="text" name="title" id=""> <br> <br>
         <h3>내용</h3>
-        <textarea cols="100" rows="40" name="boardContent"></textarea>
+        <textarea cols="100" rows="40" name="content"></textarea>
         <br>
         <div class="btn-box">
             <button>작성 완료</button>

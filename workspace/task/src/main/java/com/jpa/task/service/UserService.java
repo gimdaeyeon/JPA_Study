@@ -38,6 +38,11 @@ public class UserService {
             throw new DuplicateUserException("중복된 회원 아이디");
         }
     }
+    @Transactional(readOnly = true)
+    public User findUser(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원 번호"));
+    }
 
 
 

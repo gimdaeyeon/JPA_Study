@@ -56,7 +56,7 @@
 <section>
     <div class="flex">
         <h1>커뮤니티 게시판</h1>
-        <button type="button">글쓰기</button>
+        <button type="button" id="write-btn">글쓰기</button>
     </div>
     <table cellspacing="0">
         <thead>
@@ -68,11 +68,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr></tr>
+        <tr th:each="board: ${boardList}">
+            <td th:text="${board.id}"></td>
+            <td><a th:href="@{/board/detail/{id}(id=${board.id})}" th:text="${board.title}"></a></td>
+            <td th:text="${board.user.name}"></td>
+            <td th:text="${board.createdDate}"></td>
+        </tr>
         </tbody>
     </table>
 
 </section>
+<script>
+    let writeBtn = document.getElementById('write-btn');
+    writeBtn.addEventListener('click',function (){
+       location.href = '/board/write';
+    });
 
+</script>
 </body>
 </html>

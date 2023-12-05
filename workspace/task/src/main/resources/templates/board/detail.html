@@ -64,13 +64,13 @@
 <body>
 <fieldset>
     <legend>글 상세보기</legend>
-    <form action="" method="post">
+    <form action="" method="post" >
         <h3>제목</h3>
-        <div class="title"></div>
+        <div class="title" th:text="${board.title}"></div>
         <h3>내용</h3>
-        <div class="content"></div>
+        <div class="content" th:text="${board.content}></div>
         <br>
-        <div class="btn-box">
+        <div class ="btn-box">
             <button>수정 하기</button>
             <button type="button">뒤로가기</button>
         </div>
