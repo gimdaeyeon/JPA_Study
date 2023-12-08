@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <button type="button" onclick="register()">등록</button>
+  <button type="button" onclick="getSubmall()">조회</button>
+  <button type="button" onclick="pay()">결제</button>
+
+  <script>
+    let result;
+
+    const data = {
+      subMallId: "jpaTestmall4",
+      email: 'rlaeodus@test.com',
+      type: "CORPORATE",
+      companyName: "테스트몰4",
+      representativeName: "김대표",
+      businessNumber: "1200220001",
+      phoneNumber: '01012341234',
+      account: {
+        bank: "03",
+        accountNumber: "34000000000011"
+      }
+    };
+
+    function register() {
+      fetch('https://api.tosspayments.com/v1/payouts/sub-malls', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Basic dGVzdF9za19LTmJkT3ZrNXJrYTd3WE1OUWE1bzNuMDd4bHptOg==',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)  // 객체를 JSON 문자열로 변환
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function getSubmall(){
+      // /v1/payouts/sub-malls
+      fetch('https://api.tosspayments.com/v1/payouts/sub-malls', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Basic dGVzdF9za19LTmJkT3ZrNXJrYTd3WE1OUWE1bzNuMDd4bHptOg=='
+        }  
+      })
+        .then(response => response.json())
+        // .then(data=>data.filter(d=>d.subMallId==='jpaTestmall2'))
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    }
+    
+
+
+
+
+
+
+function pay(){
+  fetch('https://api.tosspayments.com/v1/payouts/sub-malls/settlements', {
+      method: 'POST',
+      headers: {
+          'Authorization': 'Basic dGVzdF9za19LTmJkT3ZrNXJrYTd3WE1OUWE1bzNuMDd4bHptOg==',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([
+          {"subMallId":"jpaTestmall1","payoutAmount":100,"payoutDate":"2023-12-11"},
+      ])
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+}
+
+
+
+  </script>
+</body>
+
+</html>
