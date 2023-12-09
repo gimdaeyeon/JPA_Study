@@ -69,6 +69,38 @@ class BookDataRepositoryTest {
         bookDataRepository.deleteById(1L);
         bookDataRepository.deleteAll();
     }
+    @Test
+    void findBy(){
+        List<Book> bookList = bookDataRepository.findBy();
+    }
+    @Test
+    void findByName(){
+        List<Book> bookList = bookDataRepository.findByName("해리포터");
+    }
+    @Test
+    void findTestByPrice(){
+        List<Book> testByPrice = bookDataRepository.findTestByPrice(10_000);
+    }
+    @Test
+    void findOptionalTest(){
+        Optional<Book> foundBook = bookDataRepository.findOptionalByName("");
+        System.out.println(foundBook.isPresent());
+
+        Book bookByName = bookDataRepository.findBookByName("");
+        System.out.println("bookByName = " + bookByName);
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

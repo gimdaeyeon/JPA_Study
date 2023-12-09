@@ -34,7 +34,7 @@ public class CheckOut extends Period {
 //    편의 메소드
     public void setUser(User user){
         if(this.user !=null){
-            this.user.getCheckOutList().remove(user);
+            this.user.getCheckOutList().remove(this);
         }
         this.user = user;
         user.getCheckOutList().add(this);
