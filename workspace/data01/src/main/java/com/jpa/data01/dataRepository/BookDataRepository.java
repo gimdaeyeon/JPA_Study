@@ -4,6 +4,8 @@ import com.jpa.data01.domain.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +36,66 @@ public interface BookDataRepository extends JpaRepository<Book,Long>{
   */
     Optional<Book> findOptionalByName(String name);
     Book findBookByName(String name);
+
+//    =========================================
+//    * 조건 설정
+//    Equal(=) 조건이 아닌 다른 조건도 사용이 가느하다.
+//    findBy필드[조건설정]
+//    1. 비교 연산자
+//    GreaterThan : 초과 조건
+//    LessThan : 미만 조건
+    List<Book> findByPriceGreaterThan(int price);
+    List<Book> findByPriceLessThan(int price);
+
+//  GraterThanEqual : 이상
+//  LessThanEqual : 이하
+//  날짜 비교 조건도 가능하지만 권장하지 않는다.
+    List<Book> findByReleaseDateGreaterThanEqual(LocalDate date);
+    List<Book> findByReleaseDateLessThanEqual(LocalDate date);
+
+//    After : 초과 조건
+//    Before : 미만 조건
+//    GraterThan, LessThan과 동일하게 쿼리가 생성된다.
+//    After,Before는 의미적으로 날짜 비교에 사용하는 것을 권장한다.
+    List<Book> findByReleaseDateAfter(LocalDate date);
+    List<Book> findByReleaseDateBefore(LocalDate date);
+
+//    2. like 문자열 조건 설정하기
+//    Like : like 조건을 생성한다. -> like 'keyword'
+    List<Book> findByNameLike(String keyword);
+//    NotLike : not like 조건을 생성한다. -> not like 'keyword'
+    List<Book> findByNameNotLike(String keyword);
+
+//    Containing : like를 이용해 포함 조건을 생성한다. -> like '%keyword'%
+    List<Book> findByNameContaining(String keyword);
+
+//    StartingWith : Like를 이용해 시작 글자 조건을 생성한다. -> like 'keyword%'
+//    EndingWith : Like를 이용해 마지막 글자 조건을 생성한다. -> like '%keyword'
+    List<Book> findByNameStartingWith(String keyword);
+    List<Book> findByNameEndingWith(String keyword);
+
+//    3. Null 조건 설정하기
+//    IsNull, IsNotNull
+    List<Book> findByPriceIsNull();
+    List<Book> findByPriceIsNotNull();
+
+//    SQL 연산자 조건 설정하기
+//    Between : Between 조건을 생성한다. -> beetween A and B
+//    매개변수 2개 사용한다.
+    List<Book> findByPriceBetween(int a,int b);
+
+//    In : in 조건을 생성한다. -> in(a,b,c,...)
+//    매개변수에 Collection 타입을 사용한다.
+//    Collection을 상속받은 List, Set타입도 가능하다.
+    List<Book> findByNameIn(Collection<String> name);
+
+//    NotIn : not in 조건을 생성한다. -> not in(a,b,c,....)
+    List<Book> findByNameNotIn(Collection<String> name);
+
+//    5. 논리연산자를 사용하여 여러 조건 사용하기
+//    And, Or
+//    findBy필드명[조건]And필드명[조건]
+    List<Book> findByNameAndPrice(String name, int price);
 
 
 

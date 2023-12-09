@@ -89,7 +89,63 @@ class BookDataRepositoryTest {
         Book bookByName = bookDataRepository.findBookByName("");
         System.out.println("bookByName = " + bookByName);
     }
-
+    @Test
+    void findByPriceGreaterThan(){
+        List<Book> bookList = bookDataRepository.findByPriceGreaterThan(10000);
+        List<Book> bookList2 = bookDataRepository.findByPriceLessThan(10000);
+    }
+    @Test
+    void findByReleaseDateGreaterThanEqual(){
+        List<Book> bookList = bookDataRepository.findByReleaseDateGreaterThanEqual(LocalDate.of(2000,1,1));
+        System.out.println("bookList = " + bookList);
+    }
+    @Test
+    void findByReleaseDateAfter(){
+        List<Book> byReleaseDateAfter = bookDataRepository.findByReleaseDateAfter(LocalDate.of(2000, 1, 1));
+        System.out.println("byReleaseDateAfter = " + byReleaseDateAfter);
+    }
+    @Test
+    void findByNameLike(){
+        List<Book> bookList = bookDataRepository.findByNameLike("J");
+        List<Book> bookList2 = bookDataRepository.findByNameNotLike("J");
+        System.out.println("bookList = " + bookList);
+        System.out.println("bookList2 = " + bookList2);
+    }
+    @Test
+    void containing(){
+        List<Book> bookList = bookDataRepository.findByNameContaining("J");
+        System.out.println("bookList = " + bookList);
+    }
+    @Test
+    void findByNameStartingWith(){
+        List<Book> bookList = bookDataRepository.findByNameStartingWith("J");
+        System.out.println("bookList = " + bookList);
+    }
+    @Test
+    void findByPriceIsNull(){
+        List<Book> byPriceIsNull = bookDataRepository.findByPriceIsNull();
+        System.out.println("byPriceIsNull = " + byPriceIsNull);
+    }
+    @Test
+    void findByPriceBetween(){
+        List<Book> byPriceBetween = bookDataRepository.findByPriceBetween(10000, 12000);
+        System.out.println("byPriceBetween = " + byPriceBetween);
+    }
+    @Test
+    void in(){
+        List<Book> bookList = bookDataRepository.findByNameIn(List.of("해리포터", "JPA", "테스트"));
+        System.out.println("bookList = " + bookList);
+    }
+    @Test
+    void notIn(){
+        List<Book> bookList = bookDataRepository.findByNameNotIn(List.of("해리포터", "JPA", "테스트"));
+        System.out.println("bookList = " + bookList);
+    }
+    @Test
+    void findByNameAndPrice(){
+        List<Book> bookList = bookDataRepository.findByNameAndPrice("JPA", 10000);
+        System.out.println("bookList = " + bookList);
+    }
 
 }
 
