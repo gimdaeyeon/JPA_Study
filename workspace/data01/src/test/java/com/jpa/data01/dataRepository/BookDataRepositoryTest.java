@@ -146,8 +146,62 @@ class BookDataRepositoryTest {
         List<Book> bookList = bookDataRepository.findByNameAndPrice("JPA", 10000);
         System.out.println("bookList = " + bookList);
     }
+    @Test
+    void findByPriceGreaterThanOrderByIdDesc(){
+        List<Book> byPriceGreaterThanOrderByIdDesc = bookDataRepository.findByPriceGreaterThanOrderByIdDesc(10000);
+        System.out.println("byPriceGreaterThanOrderByIdDesc = " + byPriceGreaterThanOrderByIdDesc);
+    }
+    @Test
+    void findByNameIgnoreCase(){
+        List<Book> jpa = bookDataRepository.findByNameIgnoreCaseAndPrice("jpa", 10000);
+        System.out.println("jpa = " + jpa);
+    }
+    @Test
+    void findByNameContainingIgnoreCase(){
+        List<Book> j = bookDataRepository.findByNameContainingIgnoreCase("j");
+        System.out.println("j = " + j);
+    }
+    @Test
+    void findDistinctByPrice(){
+        List<Book> distinctByPrice = bookDataRepository.findDistinctByPrice(10000);
+        System.out.println("distinctByPrice = " + distinctByPrice);
+    }
+    @Test
+    void findTop3ByName(){
+        List<Book> jpa = bookDataRepository.findTop3ByName("JPA");
+        System.out.println("jpa = " + jpa);
+    }
+    @Test
+    void findTop2ByOrderByPriceDesc(){
+        List<Book> top2ByOrderByPriceDesc = bookDataRepository.findTop2ByOrderByPriceDesc();
+        System.out.println("top2ByOrderByPriceDesc = " + top2ByOrderByPriceDesc);
+    }
+    @Test
+    void countBy(){
+        long l = bookDataRepository.countBy();
+        System.out.println("l = " + l);
+
+        long l1 = bookDataRepository.countByReleaseDateAfter(LocalDate.of(2001, 10, 10));
+        System.out.println("l1 = " + l1);
+    }
+    @Test
+    void existsByCategory(){
+        boolean isTrue = bookDataRepository.existsByCategory(BookCategory.IT);
+        System.out.println("isTrue = " + isTrue);
+    }
+    @Test
+    void deleteByReleaseDateAfter(){
+        bookDataRepository.deleteByReleaseDateAfter(LocalDate.of(2001, 10, 10));
+    }
+
+
+
+
+
+
 
 }
+
 
 
 

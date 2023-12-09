@@ -1,6 +1,7 @@
 package com.jpa.data01.dataRepository;
 
 import com.jpa.data01.domain.entity.Book;
+import com.jpa.data01.domain.type.BookCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -96,7 +97,46 @@ public interface BookDataRepository extends JpaRepository<Book,Long>{
 //    And, Or
 //    findBy필드명[조건]And필드명[조건]
     List<Book> findByNameAndPrice(String name, int price);
+//    =================================================================================
 
+//    *기타 키워드
+//    1. 정렬하기
+//    OrderBy필드명[Desc]
+//    항상 메소드 이름의 마지막에 사용한다.
+    List<Book> findByPriceGreaterThanOrderById(int price);
+    List<Book> findByPriceGreaterThanOrderByIdDesc(int price);
+
+//    2. 대소문자 무시하기
+//    findBy필드명[조건]IgnoreCase -> where 컬럼 = upper('keyword')
+    List<Book> findByNameIgnoreCase(String name);
+    List<Book> findByNameIgnoreCaseAndPrice(String name,int price);
+
+//    like와 함께 사용 가능
+    List<Book> findByNameContainingIgnoreCase(String keyword);
+
+//    3. 중복제거
+//    findDistinct[식별자]By : select절에 distinct를 추가해준다.
+    List<Book> findDistinctByPrice(int price);
+
+//    4. 상위 결과 가져오기 (Rank)
+//    findTop<Number>[식별자]By -> 조회 결과의 상위 <number>개를 가져온다.
+    List<Book> findTop3ByName(String name);
+
+//  OrderBy와 같이 사용하는 경우가 많다.
+    List<Book> findTop2ByOrderByPriceDesc();
+
+//====================================================================================================
+//  find 외의 키워드
+//  1. count[식별자]By[필드][조건]
+    long countBy();
+    long countByReleaseDateAfter(LocalDate date);
+
+//    2. exists[식별자]By[필드][조건] : 조회 결과 유/무
+    boolean existsBy();
+    boolean existsByCategory(BookCategory bookCategory);
+
+//    3. delete[식별자]By[필드][조건] : 조건으로 여러 행 삭제
+    void deleteByReleaseDateAfter(LocalDate date);
 
 
 }
