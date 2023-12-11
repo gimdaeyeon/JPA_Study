@@ -38,14 +38,13 @@ public interface UserQueryRepository extends JpaRepository<User,Long> {
 //    id, name, birth 필드를 가진 UserDto를 만든다. -> 우편번호를 전달받아 부분 일치하는 회원 정보를 Dto로 반환 (예 : 1 -> 11111, 41233, 44412)
     @Query("select new com.jpa.data01.domain.dto.UserDto(u.id, u.name,u.birth) from User u where u.address.zipcode like concat('%',:zipcode,'%') escape '/'")
     List<UserDto> findUserDtoByZipcode(@Param("zipcode") String zipcode);
-//    회원의 주소는 강남구, 강북구, 강동구 3종류가 있다고 가정하고 각 주소별 나이가 가장 많은 사람의 주소와 생일을 Map으로 반환
-    @Query("select new Map(u.address.address as address,u.birth as birth) from User u group by u.address.address having u.birth = max(u.birth)")
-    Map<String, Object> findUserMapByAddressGroupBY();
+//    회원의 각 주소별 나이가 가장 많은 사람의 주소와 생일을 Map으로 반환
+    @Query("select new Map(u.address.address as address,min(u.birth) as birth) from User u group by u.address.address")
+    List<Map<String, Object>> findUserMapByAddressGroupBY();
 //    나이가 10살 이상인 회원 조회
-    @Query("select u from User u where  year(now())-year(u.birth) >10")
+    @Query("select u from User u where year(current_timestamp())-year(u.birth) >=10")
     List<User> findUserByUserAge();
 
-    //강의 시간 3:07:10
 
 }
 

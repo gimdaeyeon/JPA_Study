@@ -21,7 +21,8 @@ import java.time.LocalDate;
 @SQLRestriction("DELETED = FALSE")
 @SequenceGenerator(
         name = "SEQ_BOOK_GENERATOR",
-        sequenceName = "SEQ_JPA_BOOK"
+        sequenceName = "SEQ_BOOK",
+        allocationSize = 1
 )
 public class Book extends Period {
     @Id @GeneratedValue(generator = "SEQ_BOOK_GENERATOR")

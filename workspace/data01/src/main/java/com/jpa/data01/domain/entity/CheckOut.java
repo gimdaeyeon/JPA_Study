@@ -15,7 +15,8 @@ import java.util.List;
 @Table(name = "JPA_CHECK_OUT")
 @SequenceGenerator(
         name = "SEQ_CHECK_OUT_GENERATOR",
-        sequenceName = "SEQ_JPA_CHECK_OUT"
+        sequenceName = "SEQ_CHECK_OUT",
+        allocationSize = 1
 )
 @Getter @Setter @ToString
 @SQLDelete(sql = "UPDATE JPA_CHECK_OUT SET DELETED = TRUE WHERE CHECK_OUT_ID = ? ")

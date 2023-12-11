@@ -87,7 +87,7 @@ class UserQueryRepositoryTest {
     }
     @Test
     void findUserMapByAddressGroupBY(){
-        Map<String, Object> userMapByAddressGroupBY = userQueryRepository.findUserMapByAddressGroupBY();
+        List<Map<String, Object>> userMapByAddressGroupBY = userQueryRepository.findUserMapByAddressGroupBY();
         System.out.println("userMapByAddressGroupBY = " + userMapByAddressGroupBY);
     }
     @Test

@@ -19,7 +19,8 @@ import java.util.List;
 @Table(name = "JPA_USER")
 @SequenceGenerator(
         name = "SEQ_USER_GENERATOR",
-        sequenceName = "SEQ_JPA_USER"
+        sequenceName = "SEQ_USER",
+        allocationSize = 1
 )
 @Getter @Setter @ToString(exclude = "checkOutList")
 @SQLDelete(sql = "UPDATE JPA_USER SET DELETED = TRUE WHERE USER_ID = ?")
