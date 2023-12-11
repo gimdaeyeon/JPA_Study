@@ -105,7 +105,11 @@ class BookQueryRepositoryTest {
         List<Book> bookList = bookQueryRepository.findBookByReleaseDateYYYY("2010");
         System.out.println("bookList = " + bookList);
     }
-
+    @Test
+    void nativeFind(){
+        List<Book> bookList = bookQueryRepository.nativeFind();
+        System.out.println("bookList = " + bookList);
+    }
 
 
 

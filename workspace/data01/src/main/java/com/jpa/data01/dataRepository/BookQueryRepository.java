@@ -83,6 +83,9 @@ public interface BookQueryRepository extends JpaRepository<Book,Long> {
     @Query("select b from Book b where year(b.releaseDate) = :year")
     List<Book> findBookByReleaseDateYYYY(@Param("year")String year);
 
+//    nativeQuery를 사용할 수 있다.
+    @Query(value = "SELECT * FROM JPA_BOOK", nativeQuery = true)
+    List<Book> nativeFind();
 
 
 
