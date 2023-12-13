@@ -44,6 +44,10 @@ public interface UserQueryRepository extends JpaRepository<User,Long> {
 //    나이가 10살 이상인 회원 조회
     @Query("select u from User u where year(current_timestamp())-year(u.birth) >=10")
     List<User> findUserByUserAge();
+//  각 월별 생일인 사람들의 수
+    @Query("select new Map(month(u.birth) as month, count(u.id) as count)  from User u group by month(u.birth)")
+    List<Map<String,Object>> findMonthlyUserCont();
+
 
 
 }

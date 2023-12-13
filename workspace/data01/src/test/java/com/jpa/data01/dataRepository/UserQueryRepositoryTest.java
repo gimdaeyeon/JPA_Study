@@ -95,6 +95,21 @@ class UserQueryRepositoryTest {
         List<User> userByUserAge = userQueryRepository.findUserByUserAge();
         System.out.println("userByUserAge = " + userByUserAge);
     }
+    @Test
+    void findMonthlyUserCont(){
+        List<Map<String, Object>> monthlyUserCont = userQueryRepository.findMonthlyUserCont();
+        System.out.println("monthlyUserCont = " + monthlyUserCont);
+
+        assertThat(userQueryRepository.count()).isEqualTo(
+            monthlyUserCont.stream().map(i->(Long)i.get("count")).mapToLong(i->i).sum()
+        );
+
+    }
+    @Test
+    void usersCount(){
+        long count = userQueryRepository.count();
+        System.out.println("count = " + count);
+    }
 
 
 }
