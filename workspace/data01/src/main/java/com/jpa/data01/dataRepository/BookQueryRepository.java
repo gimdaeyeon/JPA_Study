@@ -93,6 +93,8 @@ public interface BookQueryRepository extends JpaRepository<Book,Long> {
 
 
 
+
+
 }
 
 
