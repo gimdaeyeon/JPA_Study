@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional @Commit
 class CheckOutQueryRepositoryTest {
-
+//
     @Autowired
     CheckOutQueryRepository checkOutQueryRepository;
 
     @Test
-    void test(){
+    void checkOutQueryRepository(){
         List<Map<String, Object>> usersCheckOutBook = checkOutQueryRepository.findUsersCheckOutBook();
         System.out.println("usersCheckOutBook = " + usersCheckOutBook);
     }
