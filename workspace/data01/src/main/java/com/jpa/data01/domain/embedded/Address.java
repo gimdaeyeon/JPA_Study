@@ -4,7 +4,7 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @Embeddable
-@Getter  @ToString
+@Getter  @ToString @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Address {
     private String address;
