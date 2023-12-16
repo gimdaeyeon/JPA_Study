@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -93,6 +94,27 @@ class BookBulkRepositoryTest {
 
         Book foundBook2 = em.find(Book.class, 1L);
         System.out.println("foundBook2 = " + foundBook2);
+    }
+    @Test
+    void dataTest1(){
+        Optional<Book> foundBook = bookBulkRepository.findById(1L);
+        bookBulkRepository.updateBook1();
+
+//       쿼리가 잘 실행되지만 위의 예제와 같은 이유로 이미 조회된 엔티티는 수정되지 않는다.
+//        foundBook.ifPresent(System.out::println);
+//        그러므로 컨텍스트를 비우고 다시 읽어온다.
+        em.clear();
+        Optional<Book> foundBook2 = bookBulkRepository.findById(1L);
+        foundBook2.ifPresent(System.out::println);
+    }
+    @Test
+    void dataTest2(){
+        List<Book> bookList = bookBulkRepository.findAll();
+        bookBulkRepository.updateBook2(20L);
+
+        List<Book> modify = bookBulkRepository.findAll();
+        System.out.println("modify = " + modify);
+
     }
 
 

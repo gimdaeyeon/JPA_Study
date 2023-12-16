@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "JPA_BOOK")
-@Getter @Setter @ToString(exclude = "checkOut")
+@Getter @Setter @ToString(exclude = "checkOut",callSuper = true)
 @SQLDelete(sql = "UPDATE JPA_BOOK SET DELETED= TRUE WHERE BOOK_ID =? ") // delete를 하는 상황에서 대신 날릴 쿼리를 작성
 //@Where(clause = "DELETED = false") // 조회할 때 항상 추가되는 where절을 설정
 @SQLRestriction("DELETED = FALSE")
