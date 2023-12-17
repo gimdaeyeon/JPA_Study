@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -70,6 +71,48 @@ public interface CheckOutDataRepository extends JpaRepository<CheckOut,Long> {
         countQuery = "select count(ch.id)from CheckOut ch")
     Page<CheckOut> joinTest3(Pageable pageable);
 //===========================================================
+//    jpql의 서브쿼리는 where, having에서만 사용이 가능했다.
+//    하이버네이트에서는 select절에서도 사용 가능
+//    from절 서브쿼리는 하이버네이트 6.1 이상부터 지원한다.
+
+    @Query("""
+        select ch from CheckOut ch where ch.user.birth = (
+            select min(u.birth) from User u
+    )
+""")
+    List<CheckOut> sub1();
+
+    @Query("""
+        select new Map(ch as check,(select 1) as number) 
+        from CheckOut ch where ch.id  = 1
+""")
+    Map<String,Object> sub2();
+
+    @Query("""
+            select s.id from(
+                select ch.id as id from CheckOut ch where ch.id =1           
+            ) s
+      """)
+    Optional<Long> sub3();
+
+//    book 평균 가격보다 높은 책의 대여 기록을 조회하기
+    @Query("""
+        select ch from CheckOut ch 
+        where ch.book.price > (
+            select avg(b.price) from Book b
+        )
+""")
+    List<CheckOut> task1();
+
+//    book 카테고리별 가격이 가장 높은 책의 대여 기록을 조회하기
+    @Query("""
+        select ch from CheckOut ch
+        where ch.book.price in(
+            select max(b.price) from Book b
+            group by b.category
+        )
+    """)
+    List<CheckOut> task2();
 
 
 

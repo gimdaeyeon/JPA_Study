@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDateTime;
@@ -110,8 +111,27 @@ class CheckOutDataRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
         checkOutDataRepository.joinTest3(pageRequest);
     }
-
-
+    @Test
+    void sub1(){
+        checkOutDataRepository.sub1();
+    }
+    @Test
+    void sub2(){
+        checkOutDataRepository.sub2();
+    }
+    @Test
+    void sub3(){
+        checkOutDataRepository.sub3();
+    }
+    @Test
+    void task1(){
+        checkOutDataRepository.task1();
+    }
+    @Test
+    void task2(){
+        List<CheckOut> checkOuts = checkOutDataRepository.task2();
+        System.out.println("checkOuts = " + checkOuts);
+    }
 
 
 
