@@ -94,7 +94,7 @@ class RepositoryTest {
         em.clear();
 
         System.out.println("check : " + checkOut1.getBook());
-        System.out.println("check : " + book1.getCheckOut());
+//        System.out.println("check : " + book1.getCheckOut());
 
     }
 
@@ -110,6 +110,6 @@ class RepositoryTest {
     @Test
     void find(){
         Optional<Book> foundBook = bookRepository.findById(1L);
-        foundBook.ifPresent(book-> System.out.println("find : "+book.getCheckOut()));
+//        foundBook.ifPresent(book-> System.out.println("find : "+book.getCheckOut()));
     }
 }

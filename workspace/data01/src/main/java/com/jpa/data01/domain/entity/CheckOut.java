@@ -40,10 +40,10 @@ public class CheckOut extends Period {
         this.user = user;
         user.getCheckOutList().add(this);
     }
-    public void setBook(Book book){
-        this.book = book;
-        book.setCheckOut(this);
-    }
+//    public void setBook(Book book){
+//        this.book = book;
+//        book.setCheckOut(this);
+//    }
 
 
 
