@@ -18,7 +18,7 @@ import java.util.List;
         sequenceName = "SEQ_CHECK_OUT",
         allocationSize = 1
 )
-@Getter @Setter @ToString
+@Getter @Setter @ToString(exclude = {"book","user"})
 @SQLDelete(sql = "UPDATE JPA_CHECK_OUT SET DELETED = TRUE WHERE CHECK_OUT_ID = ? ")
 //@Where(clause = "DELETED = false")
 @SQLRestriction("DELETED = FALSE")
