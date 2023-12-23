@@ -58,7 +58,7 @@ public class DslBasicTest {
                 .name("김철수")
                 .salary(10_000)
                 .hireDate(LocalDate.of(2000, 10, 10))
-                .email("test@navver.com")
+                .email("test@naver.com")
                 .department(dept1)
                 .build();
 
@@ -103,10 +103,117 @@ public class DslBasicTest {
 //        2. 기본 객체 사용
 //        QEmployee qEmployee2 = QEmployee.employee;
 
+//        일반적으로 기본 객체를 사용한다.
+//        기본객체는 static이므로 static import를 활요하면 편하게 사용 가능
         QEmployee qEmployee = employee;
-
     }
 
+    @Test
+    @DisplayName("기본 select")
+    void select01 (){
+
+        Employee fetchEmp = queryFactory.select(employee) // select에 Q객체를 사용하면 전체 필드 조회
+                .from(employee) // 엔티티가 아닌 Q객체를 대상으로 한다.
+                .where(employee.email.eq("test@naver.com"))
+                .fetchOne();    //단건 조회는 fetchOne() 사용
+        System.out.println("fetchEmp = " + fetchEmp);
+
+        List<Employee> empList = queryFactory.selectFrom(employee)
+                .where(employee.name.ne("김철수"))//ne-> !=  not equals
+                .fetch();// 여러건 조회는 fetch() 사용
+    }
+
+    @Test
+    @DisplayName("여러 조건 활용")
+    void select02(){
+//        gt() : 초과
+//        goe() : 이상
+//        lt() : 미만
+//        loe() : 이하
+        List<Employee> empList = queryFactory.selectFrom(employee)
+                .where(employee.salary.gt(10_000))
+                .fetch();
+
+//        in(a,b,c...)
+//        notIn(a,b,c,...)
+//        between(a,b)
+        queryFactory.selectFrom(employee)
+                .where(employee.salary.between(1000,10000))
+                .fetch();
+
+        queryFactory.selectFrom(employee)
+                .where(employee.id.in(1L,2L,3L,4L))
+                .fetch();
+
+//        like('keyword'), notLike('keyword')
+//        contains('keyword') : %keyword%
+//        startWith('keyword') : keyword%
+//        endWith('keyword') : %keyword
+
+        queryFactory.selectFrom(employee)
+                .where(employee.email.like("test%"))
+                .fetch();
+    }
+    @Test
+    @DisplayName("and, or 테스트")
+    void andOrTest(){
+        queryFactory.selectFrom(employee)
+                .where( //where 내부에서 and/or 사용 가능
+                        employee.name.eq("김철수").and(employee.salary.eq(10000))
+                ).fetch();
+
+        queryFactory.selectFrom(employee)
+                .where(
+                        employee.hireDate.after(LocalDate.of(2000,1,1))
+                                .or(employee.salary.isNotNull())
+                ).fetch();
+
+//        and를 다음과 같이도 사용 가능*****
+        queryFactory.selectFrom(employee)
+                .where(
+                        employee.name.contains("김"), // where 내부에서 , 를 사용하여 조건을 넣으면 and처리
+                        employee.department.isNull()
+                ).fetch();
+    }
+
+//    ============================================================================================
+    @Test
+    @DisplayName("정렬하기")
+    void sorting(){
+        queryFactory.selectFrom(employee)
+                .where(employee.salary.notIn(10000))
+                .orderBy(employee.salary.desc(), employee.hireDate.asc()) // asc() 생략 불가능
+                .fetch();
+
+//        null 데이터 순서 정하기
+        em.persist(
+                Employee.builder()
+                        .name("test")
+                        .salary(10000)
+                        .build()
+        );
+
+        List<Employee> empList = queryFactory.selectFrom(employee)
+                .orderBy(employee.email.desc().nullsLast())
+                .fetch();
+
+        System.out.println("empList = " + empList);
+    }
+
+    @Test
+    @DisplayName("실행 메소드")
+    void executeMethod(){
+//        쿼리 dsl을 실행하는 메소드
+//        fechOne() :단 건 조회, 결과가 없으면 null / 2건 이상 조회되면 예외 발생
+//        fetch() : 여러 건 조회, 리스트를 반환하고 결과가 없으면 빈 리스트를 반환
+
+//        fetchFirst() : 여러 건 조회되어도 하나의 결과만 반환
+        Employee employee1 = queryFactory.selectFrom(employee)
+                        .fetchFirst();
+        System.out.println("employee1 = " + employee1);
+
+
+    }
 
 
 }
