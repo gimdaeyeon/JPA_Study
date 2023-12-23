@@ -1,0 +1,18 @@
+server:
+  port: 10005
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: hr
+    password: 1234
+  jpa:
+    hibernate:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.OracleDialect
+      ddl-auto: create
+#            ddl-auto: create-drop
+#            ddl-auto: update
+#      ddl-auto: validate
