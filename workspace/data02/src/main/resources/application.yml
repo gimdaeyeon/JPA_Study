@@ -11,7 +11,7 @@ spring:
     properties:
       hibernate:
         use_sql_comments: true
-        dialect: org.hibernate.dialect.OracleDialect
+        dialect: org.hibernate.dialect.Oracle10gDialect
     hibernate:
       ddl-auto: create
 #            ddl-auto: create-drop

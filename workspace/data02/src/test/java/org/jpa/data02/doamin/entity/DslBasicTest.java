@@ -1,5 +1,10 @@
 package org.jpa.data02.doamin.entity;
 
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -212,8 +217,154 @@ public class DslBasicTest {
                         .fetchFirst();
         System.out.println("employee1 = " + employee1);
 
+//        fetchCount() : 카운트 쿼리로 변경 (deprecated)
+        long count = queryFactory.selectFrom(employee)
+                .fetchCount();
+
+//        fetchResult() : 페이징 처리 결과 반환 , total쿼리도 같이 실행해준다 (deprecated)
+        QueryResults<Employee> results = queryFactory.selectFrom(employee)
+                .orderBy(employee.id.desc())
+                .offset(0)  // 시작 행 설정 (0부터 설정)
+                .limit(2)   // 몇 건 조회인지 설정
+                .fetchResults();
+
+        System.out.println("totalCount = " + results.getTotal());
+        System.out.println("limit = " + results.getLimit());
+        System.out.println("offset = " + results.getOffset());
+        System.out.println("results = " + results.getResults());
+    }
+    
+    @Test
+    @DisplayName("반환타입")
+    void returnType(){
+//        엔티티 타입 : select()에 Q타입을 사용하면 자동으로 해당 엔티티 타입이 반환된다.
+//        기본 타입 : 프로젝션으로 단일 필드를 지정하면 해당 타입으로 반환된다.
+        List<String> fetch = queryFactory.select(employee.name)
+                .from(employee)
+                .fetch();
+//        Tuple 타입 : 프로젝션으로 여러 필드를 지정하면 Tuple타입으로 반환된다.
+//                    조회 결과를 에티티 / 기본 타입으로 받을 수 없는 경우 Tuple이 반환된다.
+        List<Tuple> tupleList = queryFactory.select(employee.name, employee.email)
+                .from(employee)
+                .fetch();
+
+//        Tuple타입은 쿼리 dsl에서 제공하는 타입이며 다음과 같이 사요한다.
+//        빠른 for문 라이브 템플릿 iter
+        for (Tuple tuple : tupleList) {
+//            get(조회할 때 사용한 프로젝션)
+            String name = tuple.get(employee.name);
+            String email = tuple.get(employee.email);
+            System.out.println(name + ":" + email);
+        }
+    }
+
+    @Test
+    @DisplayName("group by와 집계함수")
+    void groupBy (){
+//        count(), sum(), avg(),min,max() 모두 지원
+        Long count = queryFactory.select(employee.count())
+                .from(employee)
+                .fetchOne();
+        System.out.println("count = " + count);
+
+        Double avg = queryFactory.select(employee.salary.avg())
+                .from(employee)
+                .fetchOne();
+        System.out.println("avg = " + avg);
+
+        StringPath projectionName = employee.department.name;
+        NumberExpression<Double> projectionAvg = employee.salary.avg();
+
+//        group by와 having을 지원함
+        List<Tuple> list = queryFactory.select(projectionName, projectionAvg)
+                .from(employee)
+                .groupBy(projectionName).having(projectionName.ne("test"))
+                .fetch();
+        System.out.println("list = " + list);
+
+        for (Tuple tuple : list) {
+            String name = tuple.get(projectionName);
+            Double salaryAvg = tuple.get(projectionAvg);
+            System.out.println(name + ":" + salaryAvg);
+
+        }
+    }
+
+    //    ==================================================================================
+    //    실습
+    //    1. 모든 사원들의 이름, 소속부서 이름을 조회, 출력하기
+    @Test
+    @DisplayName("문제1")
+    void task1(){
+        List<Tuple> empNameDeptList = queryFactory.select(employee.name, employee.department.name)
+                .from(employee)
+                .fetch();
+
+        for (Tuple tuple : empNameDeptList) {
+            String empName = tuple.get(employee.name);
+            String deptName = tuple.get(employee.department.name);
+            System.out.println(empName + " : " + deptName);
+        }
+    }
+
+    //    2. 급여가 10,000이상인 사원들의 이름과 급여 조회, 출력하기
+    @Test
+    @DisplayName("문제2")
+    void task2(){
+        StringPath name = employee.name;
+        NumberPath<Integer> salary = employee.salary;
+
+        List<Tuple> list = queryFactory.select(name, salary)
+                .from(employee)
+                .where(salary.goe(10_000))
+                .fetch();
+
+        for (Tuple tuple : list) {
+            System.out.println(tuple.get(name) +" : " + tuple.get(salary));
+        }
+    }
+
+    //    3. 가장 오래전에 입사한 사원 조회, 출력하기
+    //        가장 최근에 입사한 사원 조회, 출력하기
+    @Test
+    @DisplayName("문제3")
+    void task3(){
+        Employee firstEmp = queryFactory.selectFrom(employee)
+                .orderBy(employee.hireDate.asc())
+                .fetchFirst();
+
+        Employee lastEmp = queryFactory.selectFrom(employee)
+                .orderBy(employee.hireDate.desc())
+                .fetchFirst();
+
+        System.out.println("firstEmp = " + firstEmp);
+        System.out.println("lastEmp = " + lastEmp);
 
     }
+    
+    //    4. 각 부서별 직원 수를 조회, 출력하기
+    @Test
+    @DisplayName("문제4")
+    void task4(){
+        List<Tuple> list = queryFactory.select(employee.department.name, employee.count())
+                .from(employee)
+                .groupBy(employee.department.name)
+                .fetch();
+
+        for (Tuple tuple : list) {
+            System.out.println(tuple.get(employee.department.name)+" : "+ tuple.get(employee.count()));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }
