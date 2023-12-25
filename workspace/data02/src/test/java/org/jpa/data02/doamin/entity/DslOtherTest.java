@@ -1,14 +1,20 @@
 package org.jpa.data02.doamin.entity;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import static org.jpa.data02.doamin.entity.QEmployee.employee;
 
 @SpringBootTest
 @Transactional @Commit
@@ -64,6 +70,44 @@ public class DslOtherTest {
         em.persist(employee2);
         em.persist(employee3);
     }
+    @Test
+    @DisplayName("조회 결과 연결하기")
+    void concat(){
+        List<String> concatList = queryFactory.select(employee.name.concat(" : ").concat(employee.email))
+                .from(employee)
+                .fetch();
+        System.out.println("concatList = " + concatList);
+    }
+    @Test
+    @DisplayName("문자열이 아닌 값과 연결하기")
+    void concat2(){
+//        sql 또는 Jpql에서는 concat에 문자열이 아닌 값을 넣어도 자동 형변환된다.
+//        그러나 queryDsl은 concat의 매개변수 타입이 String 이므로 문자열을 넣어야 한다.
+//        이런 경우 해당 필드에 stringValue()를 사용하여 문자열 값으로 변경해주면 된다.
+        JPAQuery<String> concatList = queryFactory
+                .select(employee.name.concat(" : ").concat(employee.salary.stringValue()))
+                .from(employee);
+        System.out.println("concatList = " + concatList);
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
