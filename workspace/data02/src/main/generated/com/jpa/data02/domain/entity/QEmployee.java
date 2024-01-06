@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QEmployee extends EntityPathBase<Employee> {
 
-    private static final long serialVersionUID = -1039307532L;
+    private static final long serialVersionUID = -494512047L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

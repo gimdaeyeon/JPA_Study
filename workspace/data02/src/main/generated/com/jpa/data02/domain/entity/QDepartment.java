@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QDepartment extends EntityPathBase<Department> {
 
-    private static final long serialVersionUID = -1661972456L;
+    private static final long serialVersionUID = -2099521483L;
 
     public static final QDepartment department = new QDepartment("department");
 
