@@ -1,4 +1,4 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

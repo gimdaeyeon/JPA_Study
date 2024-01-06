@@ -1,4 +1,4 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,8 +14,7 @@ import org.springframework.test.annotation.Commit;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.jpa.data02.doamin.entity.QDepartment.department;
-import static org.jpa.data02.doamin.entity.QEmployee.employee;
+import static com.jpa.data02.domain.entity.QEmployee.employee;
 
 @SpringBootTest
 @Transactional@Commit
@@ -76,7 +75,7 @@ public class DslJoinTest {
     @DisplayName("기본 join")
     void basicJoin(){
         QEmployee qEmployee = employee;
-        QDepartment qDepartment = department;
+        QDepartment qDepartment = QDepartment.department;
 
         List<Employee> employeeList1 = queryFactory.selectFrom(qEmployee)
                 .join(qEmployee.department)
@@ -111,9 +110,9 @@ public class DslJoinTest {
         em.clear();
 
         List<Employee> empList = queryFactory.selectFrom(employee)
-                .leftJoin(employee.department, department)
+                .leftJoin(employee.department, QDepartment.department)
 //                .fetchJoin()  //lazy로딩에 의해 쿼리가 더 나가는 것을 해결하기 위한 fetchJoin
-                .where(department.name.eq("개발"))
+                .where(QDepartment.department.name.eq("개발"))
                 .fetch();
 
         System.out.println("empList = " + empList);
@@ -122,8 +121,8 @@ public class DslJoinTest {
     @DisplayName("카르테시안 곱")
     void crossJoin(){
 //        주로 연관관계가 없는 필드로 조인을 걸고 싶거나 아예 무관한 엔티티끼리 조인을 걸고 싶을 때 사용했었다.
-        List<Tuple> tupleList = queryFactory.select(employee, department)
-                .from(employee, department)
+        List<Tuple> tupleList = queryFactory.select(employee, QDepartment.department)
+                .from(employee, QDepartment.department)
                 .fetch();
 
         tupleList.forEach(System.out::println);
@@ -134,9 +133,9 @@ public class DslJoinTest {
                 Employee.builder().email("A").build()
         );
 
-        List<Tuple> tupleList1 = queryFactory.select(employee, department)
-                .from(employee, department)
-                .where(employee.email.eq(department.officeLocation))
+        List<Tuple> tupleList1 = queryFactory.select(employee, QDepartment.department)
+                .from(employee, QDepartment.department)
+                .where(employee.email.eq(QDepartment.department.officeLocation))
                 .fetch();
 
         tupleList1.forEach(System.out::println);
@@ -148,8 +147,8 @@ public class DslJoinTest {
     @DisplayName("on절이 없는 join")
     void crossJoin2(){
 //        join을 명시하여 사용하는 경우 on절이 생략되면 카르테시안 곱이 발생될 수 있다.
-        List<Tuple> tupleList = queryFactory.select(employee, department).from(employee)
-                .leftJoin(department)
+        List<Tuple> tupleList = queryFactory.select(employee, QDepartment.department).from(employee)
+                .leftJoin(QDepartment.department)
                 .fetch();
 
         tupleList.forEach(System.out::println);
@@ -177,7 +176,7 @@ public class DslJoinTest {
 //        조인을 사용하였으나 department를 조건에서만 사용하고 조회는 하지 않은경우(Employee만 영속화)
         List<Employee> empList = queryFactory.select(employee)
                 .from(employee)
-                .join(department).on(employee.email.eq(department.officeLocation))
+                .join(QDepartment.department).on(employee.email.eq(QDepartment.department.officeLocation))
                 .fetch();
         em.find(Department.class,1L);
     }
@@ -188,7 +187,7 @@ public class DslJoinTest {
         em.clear();
 
         List<Employee> employeeList = queryFactory.selectFrom(employee)
-                .join(employee.department, department).fetchJoin()
+                .join(employee.department, QDepartment.department).fetchJoin()
                 .fetch();
 
         employeeList.forEach(System.out::println);

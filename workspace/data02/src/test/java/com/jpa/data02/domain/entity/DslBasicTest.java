@@ -1,4 +1,4 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
@@ -17,8 +17,6 @@ import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.jpa.data02.doamin.entity.QEmployee.employee;
 
 /*
     QueryDsl
@@ -93,7 +91,7 @@ public class DslBasicTest {
     void loadTest() {
 //        QueryDSL을 사용하여 jpql을 생성하기 위해서는 JPAQueryFactory 객체가 필요하며
 //        entityManager를 넘겨줘야한다.
-        QEmployee qEmployee = employee;
+        QEmployee qEmployee = QEmployee.employee;
 
         List<Employee> empList = queryFactory.select(qEmployee).from(qEmployee).fetch();
 
@@ -110,21 +108,21 @@ public class DslBasicTest {
 
 //        일반적으로 기본 객체를 사용한다.
 //        기본객체는 static이므로 static import를 활요하면 편하게 사용 가능
-        QEmployee qEmployee = employee;
+        QEmployee qEmployee = QEmployee.employee;
     }
 
     @Test
     @DisplayName("기본 select")
     void select01 (){
 
-        Employee fetchEmp = queryFactory.select(employee) // select에 Q객체를 사용하면 전체 필드 조회
-                .from(employee) // 엔티티가 아닌 Q객체를 대상으로 한다.
-                .where(employee.email.eq("test@naver.com"))
+        Employee fetchEmp = queryFactory.select(QEmployee.employee) // select에 Q객체를 사용하면 전체 필드 조회
+                .from(QEmployee.employee) // 엔티티가 아닌 Q객체를 대상으로 한다.
+                .where(QEmployee.employee.email.eq("test@naver.com"))
                 .fetchOne();    //단건 조회는 fetchOne() 사용
         System.out.println("fetchEmp = " + fetchEmp);
 
-        List<Employee> empList = queryFactory.selectFrom(employee)
-                .where(employee.name.ne("김철수"))//ne-> !=  not equals
+        List<Employee> empList = queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.name.ne("김철수"))//ne-> !=  not equals
                 .fetch();// 여러건 조회는 fetch() 사용
     }
 
@@ -135,19 +133,19 @@ public class DslBasicTest {
 //        goe() : 이상
 //        lt() : 미만
 //        loe() : 이하
-        List<Employee> empList = queryFactory.selectFrom(employee)
-                .where(employee.salary.gt(10_000))
+        List<Employee> empList = queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.salary.gt(10_000))
                 .fetch();
 
 //        in(a,b,c...)
 //        notIn(a,b,c,...)
 //        between(a,b)
-        queryFactory.selectFrom(employee)
-                .where(employee.salary.between(1000,10000))
+        queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.salary.between(1000,10000))
                 .fetch();
 
-        queryFactory.selectFrom(employee)
-                .where(employee.id.in(1L,2L,3L,4L))
+        queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.id.in(1L,2L,3L,4L))
                 .fetch();
 
 //        like('keyword'), notLike('keyword')
@@ -155,29 +153,29 @@ public class DslBasicTest {
 //        startWith('keyword') : keyword%
 //        endWith('keyword') : %keyword
 
-        queryFactory.selectFrom(employee)
-                .where(employee.email.like("test%"))
+        queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.email.like("test%"))
                 .fetch();
     }
     @Test
     @DisplayName("and, or 테스트")
     void andOrTest(){
-        queryFactory.selectFrom(employee)
+        queryFactory.selectFrom(QEmployee.employee)
                 .where( //where 내부에서 and/or 사용 가능
-                        employee.name.eq("김철수").and(employee.salary.eq(10000))
+                        QEmployee.employee.name.eq("김철수").and(QEmployee.employee.salary.eq(10000))
                 ).fetch();
 
-        queryFactory.selectFrom(employee)
+        queryFactory.selectFrom(QEmployee.employee)
                 .where(
-                        employee.hireDate.after(LocalDate.of(2000,1,1))
-                                .or(employee.salary.isNotNull())
+                        QEmployee.employee.hireDate.after(LocalDate.of(2000,1,1))
+                                .or(QEmployee.employee.salary.isNotNull())
                 ).fetch();
 
 //        and를 다음과 같이도 사용 가능*****
-        queryFactory.selectFrom(employee)
+        queryFactory.selectFrom(QEmployee.employee)
                 .where(
-                        employee.name.contains("김"), // where 내부에서 , 를 사용하여 조건을 넣으면 and처리
-                        employee.department.isNull()
+                        QEmployee.employee.name.contains("김"), // where 내부에서 , 를 사용하여 조건을 넣으면 and처리
+                        QEmployee.employee.department.isNull()
                 ).fetch();
     }
 
@@ -185,9 +183,9 @@ public class DslBasicTest {
     @Test
     @DisplayName("정렬하기")
     void sorting(){
-        queryFactory.selectFrom(employee)
-                .where(employee.salary.notIn(10000))
-                .orderBy(employee.salary.desc(), employee.hireDate.asc()) // asc() 생략 불가능
+        queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.salary.notIn(10000))
+                .orderBy(QEmployee.employee.salary.desc(), QEmployee.employee.hireDate.asc()) // asc() 생략 불가능
                 .fetch();
 
 //        null 데이터 순서 정하기
@@ -198,8 +196,8 @@ public class DslBasicTest {
                         .build()
         );
 
-        List<Employee> empList = queryFactory.selectFrom(employee)
-                .orderBy(employee.email.desc().nullsLast())
+        List<Employee> empList = queryFactory.selectFrom(QEmployee.employee)
+                .orderBy(QEmployee.employee.email.desc().nullsLast())
                 .fetch();
 
         System.out.println("empList = " + empList);
@@ -213,17 +211,17 @@ public class DslBasicTest {
 //        fetch() : 여러 건 조회, 리스트를 반환하고 결과가 없으면 빈 리스트를 반환
 
 //        fetchFirst() : 여러 건 조회되어도 하나의 결과만 반환
-        Employee employee1 = queryFactory.selectFrom(employee)
+        Employee employee1 = queryFactory.selectFrom(QEmployee.employee)
                         .fetchFirst();
         System.out.println("employee1 = " + employee1);
 
 //        fetchCount() : 카운트 쿼리로 변경 (deprecated)
-        long count = queryFactory.selectFrom(employee)
+        long count = queryFactory.selectFrom(QEmployee.employee)
                 .fetchCount();
 
 //        fetchResult() : 페이징 처리 결과 반환 , total쿼리도 같이 실행해준다 (deprecated)
-        QueryResults<Employee> results = queryFactory.selectFrom(employee)
-                .orderBy(employee.id.desc())
+        QueryResults<Employee> results = queryFactory.selectFrom(QEmployee.employee)
+                .orderBy(QEmployee.employee.id.desc())
                 .offset(0)  // 시작 행 설정 (0부터 설정)
                 .limit(2)   // 몇 건 조회인지 설정
                 .fetchResults();
@@ -239,21 +237,21 @@ public class DslBasicTest {
     void returnType(){
 //        엔티티 타입 : select()에 Q타입을 사용하면 자동으로 해당 엔티티 타입이 반환된다.
 //        기본 타입 : 프로젝션으로 단일 필드를 지정하면 해당 타입으로 반환된다.
-        List<String> fetch = queryFactory.select(employee.name)
-                .from(employee)
+        List<String> fetch = queryFactory.select(QEmployee.employee.name)
+                .from(QEmployee.employee)
                 .fetch();
 //        Tuple 타입 : 프로젝션으로 여러 필드를 지정하면 Tuple타입으로 반환된다.
 //                    조회 결과를 에티티 / 기본 타입으로 받을 수 없는 경우 Tuple이 반환된다.
-        List<Tuple> tupleList = queryFactory.select(employee.name, employee.email)
-                .from(employee)
+        List<Tuple> tupleList = queryFactory.select(QEmployee.employee.name, QEmployee.employee.email)
+                .from(QEmployee.employee)
                 .fetch();
 
 //        Tuple타입은 쿼리 dsl에서 제공하는 타입이며 다음과 같이 사요한다.
 //        빠른 for문 라이브 템플릿 iter
         for (Tuple tuple : tupleList) {
 //            get(조회할 때 사용한 프로젝션)
-            String name = tuple.get(employee.name);
-            String email = tuple.get(employee.email);
+            String name = tuple.get(QEmployee.employee.name);
+            String email = tuple.get(QEmployee.employee.email);
             System.out.println(name + ":" + email);
         }
     }
@@ -262,22 +260,22 @@ public class DslBasicTest {
     @DisplayName("group by와 집계함수")
     void groupBy (){
 //        count(), sum(), avg(),min,max() 모두 지원
-        Long count = queryFactory.select(employee.count())
-                .from(employee)
+        Long count = queryFactory.select(QEmployee.employee.count())
+                .from(QEmployee.employee)
                 .fetchOne();
         System.out.println("count = " + count);
 
-        Double avg = queryFactory.select(employee.salary.avg())
-                .from(employee)
+        Double avg = queryFactory.select(QEmployee.employee.salary.avg())
+                .from(QEmployee.employee)
                 .fetchOne();
         System.out.println("avg = " + avg);
 
-        StringPath projectionName = employee.department.name;
-        NumberExpression<Double> projectionAvg = employee.salary.avg();
+        StringPath projectionName = QEmployee.employee.department.name;
+        NumberExpression<Double> projectionAvg = QEmployee.employee.salary.avg();
 
 //        group by와 having을 지원함
         List<Tuple> list = queryFactory.select(projectionName, projectionAvg)
-                .from(employee)
+                .from(QEmployee.employee)
                 .groupBy(projectionName).having(projectionName.ne("test"))
                 .fetch();
         System.out.println("list = " + list);
@@ -296,13 +294,13 @@ public class DslBasicTest {
     @Test
     @DisplayName("문제1")
     void task1(){
-        List<Tuple> empNameDeptList = queryFactory.select(employee.name, employee.department.name)
-                .from(employee)
+        List<Tuple> empNameDeptList = queryFactory.select(QEmployee.employee.name, QEmployee.employee.department.name)
+                .from(QEmployee.employee)
                 .fetch();
 
         for (Tuple tuple : empNameDeptList) {
-            String empName = tuple.get(employee.name);
-            String deptName = tuple.get(employee.department.name);
+            String empName = tuple.get(QEmployee.employee.name);
+            String deptName = tuple.get(QEmployee.employee.department.name);
             System.out.println(empName + " : " + deptName);
         }
     }
@@ -311,11 +309,11 @@ public class DslBasicTest {
     @Test
     @DisplayName("문제2")
     void task2(){
-        StringPath name = employee.name;
-        NumberPath<Integer> salary = employee.salary;
+        StringPath name = QEmployee.employee.name;
+        NumberPath<Integer> salary = QEmployee.employee.salary;
 
         List<Tuple> list = queryFactory.select(name, salary)
-                .from(employee)
+                .from(QEmployee.employee)
                 .where(salary.goe(10_000))
                 .fetch();
 
@@ -329,12 +327,12 @@ public class DslBasicTest {
     @Test
     @DisplayName("문제3")
     void task3(){
-        Employee firstEmp = queryFactory.selectFrom(employee)
-                .orderBy(employee.hireDate.asc())
+        Employee firstEmp = queryFactory.selectFrom(QEmployee.employee)
+                .orderBy(QEmployee.employee.hireDate.asc())
                 .fetchFirst();
 
-        Employee lastEmp = queryFactory.selectFrom(employee)
-                .orderBy(employee.hireDate.desc())
+        Employee lastEmp = queryFactory.selectFrom(QEmployee.employee)
+                .orderBy(QEmployee.employee.hireDate.desc())
                 .fetchFirst();
 
         System.out.println("firstEmp = " + firstEmp);
@@ -346,13 +344,13 @@ public class DslBasicTest {
     @Test
     @DisplayName("문제4")
     void task4(){
-        List<Tuple> list = queryFactory.select(employee.department.name, employee.count())
-                .from(employee)
-                .groupBy(employee.department.name)
+        List<Tuple> list = queryFactory.select(QEmployee.employee.department.name, QEmployee.employee.count())
+                .from(QEmployee.employee)
+                .groupBy(QEmployee.employee.department.name)
                 .fetch();
 
         for (Tuple tuple : list) {
-            System.out.println(tuple.get(employee.department.name)+" : "+ tuple.get(employee.count()));
+            System.out.println(tuple.get(QEmployee.employee.department.name) + " : " + tuple.get(QEmployee.employee.count()));
         }
     }
 

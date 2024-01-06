@@ -1,12 +1,9 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class EntityTest {

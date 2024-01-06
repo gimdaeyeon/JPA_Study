@@ -1,4 +1,4 @@
-package org.jpa.data02;
+package com.jpa.data02;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

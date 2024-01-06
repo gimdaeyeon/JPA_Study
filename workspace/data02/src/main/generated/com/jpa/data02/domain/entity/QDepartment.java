@@ -1,4 +1,4 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QDepartment extends EntityPathBase<Department> {
 
-    private static final long serialVersionUID = -438889808L;
+    private static final long serialVersionUID = -1661972456L;
 
     public static final QDepartment department = new QDepartment("department");
 

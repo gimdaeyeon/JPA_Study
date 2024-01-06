@@ -8,6 +8,7 @@ import com.jpa.data01.domain.type.BookCategory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -112,4 +113,22 @@ class RepositoryTest {
         Optional<Book> foundBook = bookRepository.findById(1L);
 //        foundBook.ifPresent(book-> System.out.println("find : "+book.getCheckOut()));
     }
+    @Test
+    @DisplayName("")
+    void dsfsf(){
+//        bookRepository.
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-package org.jpa.data02.config;
+package com.jpa.data02.config;
 import com.p6spy.engine.common.ConnectionInformation;
 import com.p6spy.engine.event.JdbcEventListener;
 import com.p6spy.engine.spy.P6SpyOptions;

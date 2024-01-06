@@ -1,4 +1,4 @@
-package org.jpa.data02;
+package com.jpa.data02;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

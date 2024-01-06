@@ -1,4 +1,4 @@
-package org.jpa.data02.doamin.entity;
+package com.jpa.data02.domain.entity;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPAExpressions;
@@ -15,9 +15,6 @@ import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.jpa.data02.doamin.entity.QDepartment.department;
-import static org.jpa.data02.doamin.entity.QEmployee.employee;
 
 @SpringBootTest
 @Transactional
@@ -82,7 +79,7 @@ public class DslSubQueryTest {
 //        급여가 가장 높은 사원 조회
 //        Jpql : select e from Employee e where salary = (select max(e2.salary) from Employee e2)
 
-        QEmployee qEmployee = employee;   //기본 제공 Q타입의 별칭은 이름과 동일한 employee이다.
+        QEmployee qEmployee = QEmployee.employee;   //기본 제공 Q타입의 별칭은 이름과 동일한 employee이다.
         QEmployee subEmployee = new QEmployee("e2"); //우리가 직접 별칭을 지정하여 만든 e2이다.
 
 //        QueryDsl에서 서브쿼리를 사용하는 경우 JPAExpressions 타입을 사용한다.
@@ -99,12 +96,12 @@ public class DslSubQueryTest {
     void subQuery02() {
 //        부서별 급여가 가장 높은 사원 조회하기 (조건에 In을 사용하기)
         QEmployee subEmp = new QEmployee("subEmp");
-        List<Employee> empList = queryFactory.selectFrom(employee)
-                .where(employee.salary.in(
+        List<Employee> empList = queryFactory.selectFrom(QEmployee.employee)
+                .where(QEmployee.employee.salary.in(
                         JPAExpressions.select(subEmp.salary.max())
                                 .from(subEmp)
-                                .join(subEmp.department, department)
-                                .groupBy(department.name)
+                                .join(subEmp.department, QDepartment.department)
+                                .groupBy(QDepartment.department.name)
                 )).fetch();
         System.out.println("empList = " + empList);
     }
@@ -115,13 +112,13 @@ public class DslSubQueryTest {
         QEmployee subEmp = new QEmployee("subEmp");
 
         List<Tuple> tupleList = queryFactory.select(
-                        employee.name,
+                        QEmployee.employee.name,
                         JPAExpressions.select(subEmp.salary.avg()).from(subEmp)
                 )
-                .from(employee)
+                .from(QEmployee.employee)
                 .fetch();
         tupleList.forEach(tuple -> {
-            System.out.println("name" + tuple.get(employee.name));
+            System.out.println("name" + tuple.get(QEmployee.employee.name));
             System.out.println("salary avg" + tuple.get(
                     JPAExpressions.select(subEmp.salary.avg()).from(subEmp)
             ));
@@ -132,16 +129,16 @@ public class DslSubQueryTest {
     @DisplayName("서브 쿼리 : select2")
     void scalar02() {
 //        서브 쿼리를 다음과 같이 분리할 수 있다.(가독성)
-        JPQLQuery<String> subQuery = JPAExpressions.select(department.officeLocation)
-                .from(department)
-                .where(department.id.eq(employee.department.id));
+        JPQLQuery<String> subQuery = JPAExpressions.select(QDepartment.department.officeLocation)
+                .from(QDepartment.department)
+                .where(QDepartment.department.id.eq(QEmployee.employee.department.id));
 
-        List<Tuple> tupleList = queryFactory.select(employee.name, subQuery)
-                .from(employee)
+        List<Tuple> tupleList = queryFactory.select(QEmployee.employee.name, subQuery)
+                .from(QEmployee.employee)
                 .fetch();
         
         tupleList.forEach(tuple -> {
-            System.out.println("name = " + tuple.get(employee.name));
+            System.out.println("name = " + tuple.get(QEmployee.employee.name));
             System.out.println("office location = " + tuple.get(subQuery));
         });
     }
