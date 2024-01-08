@@ -21,7 +21,6 @@ public class BoardController {
         return "board/write";
     }
 
-//    강의시간 00:55:30
 
 
 
