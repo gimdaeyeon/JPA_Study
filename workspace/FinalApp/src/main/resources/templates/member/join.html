@@ -18,19 +18,24 @@
         <label for="loginId" class="title">아이디</label>
 <!--        th:field 속성은 지정한 변수 이름과 동일한 id, name, value 속성을 자동으로 생성-->
         <input type="text" th:field="*{loginId}" placeholder="사용하실 아이디를 입력해주세요.">
-        <span class="check-msg"></span>
+<!--         validation라이브러리를 추가하면 타임리프에서 #fields 객체를 사용할 수 있으며
+             이 객체를 통해 에러 핸들링이 가능하다.
+             hasErrors()는 발생한 에러 여부를 boolean으로 반환한다.
+             th:errors 는 해당 속성값에 있는 필드의 에러 메세지를 출력한다.-->
+        <span class="check-msg" th:if="${#fields.hasErrors()}" th:errors="*{loginId}"></span>
       </div>
 
       <div class="input-box">
         <label for="password" class="title">비밀번호</label>
         <input type="text" th:field="*{password}" placeholder="비밀번호">
         <input type="text" name="checkPassword" id="checkPassword" placeholder="비밀번호 확인">
-        <span class="check-msg"></span>
+          <span class="check-msg" th:if="${#fields.hasErrors()}" th:errors="*{password}"></span>
       </div>
 
       <div class="input-box">
         <label for="memberName" class="title">이름</label>
         <input type="text" th:field="*{name}" placeholder="이름을 입력해주세요.">
+          <span class="check-msg" th:if="${#fields.hasErrors()}" th:errors="*{name}"></span>
       </div>
 
       <div class="input-box">
@@ -65,6 +70,7 @@
       <div class="input-box">
         <label for="phoneNumber" class="title">핸드폰 번호</label>
         <input type="text" th:field="*{phoneNumber}" placeholder="'-'를 제외하고 작성하세요.">
+          <span class="check-msg" th:if="${#fields.hasErrors()}" th:errors="*{phoneNumber}"></span>
       </div>
       <div class="btn-box">
         <button type="submit" id="submit-btn">가입하기</button>

@@ -31,8 +31,6 @@
     });
 }
 
-
-
 function toggleSearchMenu(isTrue){
     let $searchMenu = document.querySelector('.header__search-top-menu');
     let $mainMenu = document.querySelector('.header__nav');
@@ -45,3 +43,17 @@ function toggleSearchMenu(isTrue){
         $mainMenu.classList.remove('none');
     }
 }
+
+{
+    let $loginIcon = document.querySelector('.login-icon-box');
+
+    $loginIcon.addEventListener('click',()=>{
+        location.href = '/member/login';
+    });
+}
+
+
+
+
+
+

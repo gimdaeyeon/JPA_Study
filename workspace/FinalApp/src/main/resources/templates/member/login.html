@@ -15,18 +15,20 @@
       <section class="login-box">
         <h3>회원 로그인</h3>
         <!--로그인 경로-->
-        <form action="" method="post">
+        <form th:action="@{/member/login}" method="post" th:object="${memberLoginDto}">
           <section class="input-sec">
             <div class="input-sec__input-box">
-              <input type="text" id="login-id" name="loginId" placeholder="아이디">
-              <input type="password" id="password" name="password" placeholder="비밀번호">
+              <input type="text" th:field="*{loginId}" placeholder="아이디">
+              <span th:if="${#fields.hasErrors()}" th:errors="*{loginId}"></span>
+              <input type="password" th:field="${memberLoginDto.password}" placeholder="비밀번호">
+              <span th:if="${#fields.hasErrors()}" th:errors="*{password}"></span>
             </div>
               <button id="login-btn">로그인</button>
           </section>
         </form>
         <section class="btn-sec">
           <!--가입 링크-->
-          <a href="" class="join-btn">회원 가입</a>
+          <a th:href="@{/member/join}" class="join-btn">회원 가입</a>
         </section>
       </section>
     </main>

@@ -4,7 +4,7 @@ import com.jpa.finalapp.domain.dto.member.MemberJoinDto;
 import com.jpa.finalapp.domain.embedded.member.MemberAddress;
 import com.jpa.finalapp.domain.entity.member.Member;
 import com.jpa.finalapp.domain.type.member.MemberGender;
-import com.jpa.finalapp.repositorey.member.MemberRepository;
+import com.jpa.finalapp.repository.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceImplTest {

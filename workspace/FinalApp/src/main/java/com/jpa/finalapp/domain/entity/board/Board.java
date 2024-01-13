@@ -15,15 +15,17 @@ public class Board extends Period {
     private Long id;
     private String title;
     private String content;
+    private int viewCount;
     @JoinColumn(name = "MEMBER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @Builder
-    public Board(Long id, String title, String content, Member member) {
+    public Board(Long id, String title, String content, int viewCount, Member member) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.viewCount = viewCount;
         this.member = member;
     }
 }

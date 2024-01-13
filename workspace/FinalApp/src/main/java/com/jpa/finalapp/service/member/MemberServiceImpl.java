@@ -1,8 +1,7 @@
 package com.jpa.finalapp.service.member;
 
 import com.jpa.finalapp.domain.dto.member.MemberJoinDto;
-import com.jpa.finalapp.domain.entity.member.Member;
-import com.jpa.finalapp.repositorey.member.MemberRepository;
+import com.jpa.finalapp.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

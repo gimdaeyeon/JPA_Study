@@ -3,6 +3,9 @@ package com.jpa.finalapp.domain.dto.member;
 import com.jpa.finalapp.domain.embedded.member.MemberAddress;
 import com.jpa.finalapp.domain.entity.member.Member;
 import com.jpa.finalapp.domain.type.member.MemberGender;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,15 +18,21 @@ public class MemberJoinDto {
 //    유효성 검증 어노테이션은 여러 종류가 있다.
 
     private Long id;
+    @NotBlank(message = "아이디는 필수 입력사항입니다.") // Null, 빈 문자열, 공백 모두 허용 안함
     private String loginId;
+    @NotBlank(message = "비밀번호는 필수 입력사항입니다.")
     private String password;
+    @NotBlank(message = "이름은 필수 입력사항입니다.")
     private String name;
     private String birth;
+    @Size(min = 10,max = 11,message = "핸드폰 번호를 다시 확인하세요")
     private String phoneNumber;
     private String gender;
     private String address;
     private String addressDetail;
     private String zipcode;
+//    @Pattern(regexp="") 정규 표현식을 사용
+//    @Email 이메일 형식인지 검사해준다.
 
 //    Dto -> Entity
 //    화면에서 전달 받은 Dto를 Entity로 변환하는 일이 많은데 그때마다 개발자가 일일이 변환하는 작업은

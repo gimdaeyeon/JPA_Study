@@ -1,4 +1,4 @@
-package com.jpa.finalapp.repositorey.member;
+package com.jpa.finalapp.repository.member;
 
 import com.jpa.finalapp.domain.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
