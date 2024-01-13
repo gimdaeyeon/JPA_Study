@@ -9,7 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity @Table(name = "JPA_ORDER")
-@SequenceGenerator(name = "SEQ_ORDER_GENERATOR", sequenceName = "SEQ_ORDER") @Getter @ToString @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SequenceGenerator(name = "SEQ_ORDER_GENERATOR", sequenceName = "SEQ_ORDER")
+@Getter @ToString @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 public class Order  extends Period {
     @Id @GeneratedValue(generator = "SEQ_ORDER_GENERATOR")

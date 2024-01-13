@@ -10,8 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "JPA_MEMBER")
+@Entity @Table(name = "JPA_MEMBER")
 @SequenceGenerator(name = "SEQ_MEMBER_GENERATOR", sequenceName = "SEQ_MEMBER")
 @Getter @ToString @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert

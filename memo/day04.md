@@ -77,7 +77,7 @@
 3. 구현 클래스마다 테이블 전략(Table Per Class)  
    일반적인 RDB를 설계하는 방식이다.  
    단점이 많아 추천하지 않는다.
-
+ 
 
 # JPA 기본 fetch 전략
 - @ManyToOne, @OneToOne   
