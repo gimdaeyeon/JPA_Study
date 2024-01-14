@@ -36,7 +36,7 @@ public class BoardQueryDslRepositoryImpl implements BoardQueryDslRepository{
                                 board.title,
                                 board.content,
                                 board.member.loginId,
-                                board.createdDate,
+                                board.createdDate.stringValue(),
                                 board.viewCount,
                                 board.member.id,
                                 boardCountSubQuery,
