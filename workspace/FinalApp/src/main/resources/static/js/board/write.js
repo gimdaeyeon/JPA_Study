@@ -1,5 +1,5 @@
 // 서머노트 (에디터 api)
-$('#summernote').summernote({
+$('#content').summernote({
     placeholder: '내용을 작성하세요.',
     tabsize: 2,
     height: 310,

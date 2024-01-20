@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section class="error" th:fragment="errorBox(errorMessage)" th:classappend="${errorMessage == null ? 'none' : ''}">
+    <div class="error__background">
+        <div class="error__box">
+            <p th:text="${errorMessage}"></p>
+            <button type="button" class="error__ok">확인</button>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -14,6 +14,7 @@ public class Board extends Period {
     @Column(name = "BOARD_ID")
     private Long id;
     private String title;
+    @Lob // 필드가 String이면 CLOB으로, byte[]이면 BLOB
     private String content;
     private int viewCount;
     @JoinColumn(name = "MEMBER_ID")

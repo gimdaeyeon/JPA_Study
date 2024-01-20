@@ -13,13 +13,14 @@
 </head>
 <body>
 <header th:replace="~{/fragments/header :: header}"></header>
+<section th:replace="~{/fragments/error-sec :: errorBox(${errorMessage})}"></section>
 <section class="content-wrap">
   <section class="top-banner">
     <img th:src="@{/imgs/board/banner/banner01.png}" alt="">
   </section>
   <main>
     <!-- 작성 url 넣기 -->
-    <form action="">
+    <form th:action="@{/board/write}" method="post">
       <section class="write">
         <table class="write__table">
           <colgroup>
@@ -45,20 +46,21 @@
           <tr>
             <th scope="row">작성자</th>
             <!-- 닉네임 넣기 -->
-            <td>닉네임</td>
+            <td th:text="${loginId}"></td>
+            <input type="hidden" name="loginId" th:value="${loginId}">
           </tr>
           <tr>
             <th scope="row">제목</th>
             <td>
               <!-- name 속성 재설정 필요-->
-              <input type="text" name="title" id="title">
+              <input type="text" th:field="${boardWriteDto.title}">
             </td>
           </tr>
           <tr>
             <th scope="row">본문</th>
             <td>
               <!-- name 속성 재설정 필요 -->
-              <textarea name="content" id="summernote"></textarea>
+              <textarea th:field="${boardWriteDto.content}"></textarea>
             </td>
           </tr>
           </tbody>

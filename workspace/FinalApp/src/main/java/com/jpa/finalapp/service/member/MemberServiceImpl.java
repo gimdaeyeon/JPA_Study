@@ -31,6 +31,14 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findIdByLoginIdAndPassword(loginId,password)
                 .orElseThrow(()->new IllegalStateException("존재하지 않는 회원정보 입니다."));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String findLoginId(Long memberId) {
+        return memberRepository.findLoginId(memberId)
+                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원정보 입니다."));
+    }
+
 }
 
 

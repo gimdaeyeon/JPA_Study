@@ -59,8 +59,43 @@ public class BoardServiceImpl implements BoardService{
                 .orElseThrow(()->new IllegalStateException("존재하지 않는 게시물"));
     }
 
+//    게시글 리스트 페이징 처리
+//    리스트 화면에 필요한 정보 : 번호, 제목, 조회수 날짜, 회원아이디
+//    회원 로그인 아이디 Board에 없으므로 다음과 같은 방법을 고려함
+//    1. 그냥 Board 조회 후 그래프 탐색
+//     지연로딩을 사용하므로 Board 1개당 Member를 select하는 쿼리가 추가 발생(N+1)
+//    2. fetch join으로 Board, Member 엔티티를 같이 조회 후 Service에서 DTO로 변환
+//     Member의 불필요한 데이터를 가져오며, DTO로 변환하는 작업이 추가됨
+//    3. jpql이나 queryDSL을 활용하여 원하는 데이터만 조회하고 DTO로 반환
+//     필요한 데이터만 가져올 수 있으나 별도의 쿼리가 필요하고 화면에서 요구하는 데이터가 변경되면
+//     해당 쿼리도 수정되어야 한다.
+
+//    이 경우 여러 상황을 고려해야하며, 우리는 다음과 같이 판단함
+//    1. 우리 어플리케이션의 서비스 중 게시판은 사용자들이 자주 이용하는 서비스이므로
+//    불필요한 리소스 낭비를 줄이기 위해 필요한 데이터만 DTO에 담아 조회하는 것이 타당함
+//    2. 게시판 목록을 조회하는 것은 readOnly
+//    즉, 목록을 뽑아 수정, 삭제를 할 이유가 없으므로 DTO에 담았을 때 문제가 되지 않으며 오히려 안전함
+//    결론 -> jpql, queryDSL로 DTO반환
+//    연습을 위해 jpql로 처리
     @Override
+    @Transactional(readOnly = true)
     public Page<BoardListDto> findBoardList(Pageable pageable) {
-        return null;
+        return boardRepository.findListWithPage(pageable);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

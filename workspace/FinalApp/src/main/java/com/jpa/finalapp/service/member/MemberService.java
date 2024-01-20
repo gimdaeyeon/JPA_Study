@@ -8,4 +8,6 @@ public interface MemberService {
     void join(MemberJoinDto memberJoinDto);
     Long login(String loginId, String password);
 
+    String findLoginId(Long memberId);
+
 }
