@@ -5,6 +5,7 @@
   <title>Title</title>
   <th:block  th:insert="~{/commons/style_js :: head}"></th:block>
   <link rel="stylesheet" th:href="@{/css/board/detail.css}">
+  <script defer th:src="@{/js/board/detail.js}"></script>
 </head>
 <body>
 <header th:replace="~{/fragments/header :: header}"></header>
@@ -18,26 +19,21 @@
 
   <main>
     <div class="community-wrap">
-      <h3 class="content-title">
-        test title
-      </h3>
+      <h3 class="content-title" th:text="${board.title}"></h3>
       <section class="content-info">
         <div class="content-info__left-box">
-          <strong id="login-id">아이디</strong>
-          <span><em id="write-date">2023.12.12 16:05:48</em></span>
+          <strong id="login-id" th:text="${board.loginId}"></strong>
+          <span><em id="write-date" th:text="${board.createdDate}"></em></span>
         </div>
         <div class="content-info__right-box">
           <strong>조회수</strong>
-          <span id="view-cnt">99</span>
+          <span id="view-cnt" th:text="${board.viewCount}"></span>
         </div>
       </section>
 
       <section class="content">
         <!-- 컨텐츠 넣기 -->
-        <div class="content__text" id="content-text">
-          내용
-          들어간
-          다
+        <div class="content__text" id="content-text" th:utext="${board.content}">
         </div>
       </section>
 
@@ -45,15 +41,15 @@
         <div class="user-info__box">
           <div class="user-info__left">
             <!-- 닉네임 넣기 -->
-            <u class="user-info__name"><strong>닉네임</strong>님</u>
+            <u class="user-info__name"><strong th:text="${board.loginId}"></strong>님</u>
           </div>
           <div class="user-info__right">
             <ul class="user-info__info-ul">
               <!-- 각 count 조회하여 넣기-->
               <li>방문횟수 : <span class="user-info__visit-count">111</span></li>
               <li>추천수 : <span class="user-info__recommend-count">6</span></li>
-              <li>게시글 수 : <span class="user-info__board-count">22</span></li>
-              <li>댓글 수 : <span class="user-info__reply-count">22</span></li>
+              <li>게시글 수 : <span class="user-info__board-count" th:text="${board.boardCount}"></span></li>
+              <li>댓글 수 : <span class="user-info__reply-count" th:text="${board.commentCount}"></span></li>
             </ul>
           </div>
         </div>

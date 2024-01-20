@@ -1,7 +1,9 @@
 package com.jpa.finalapp.controller.board;
 
+import com.jpa.finalapp.domain.dto.board.BoardDetailDto;
 import com.jpa.finalapp.domain.dto.board.BoardListDto;
 import com.jpa.finalapp.domain.dto.board.BoardWriteDto;
+import com.jpa.finalapp.domain.dto.common.PageBlock;
 import com.jpa.finalapp.domain.entity.board.Board;
 import com.jpa.finalapp.service.board.BoardService;
 import com.jpa.finalapp.service.member.MemberService;
@@ -10,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,11 +39,19 @@ public class BoardController {
              size = 10,sort = "id",
             direction = Sort.Direction.DESC) Pageable pageable
             , Model model){
+        int pageNumber = pageable.getPageNumber()-1;
+        int pageSize = pageable.getPageSize();
+        Sort sort = pageable.getSort();
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
+
 //        Spring Data JPA가 Pageable 인터페이스를 제공하며 페이징 처리와 정렬기능을 간편하게
 //        구현하도록 도와준다.
 //        핸들러 메소드의 매개변수로도 사용이 가능하며, page와 size를 바인딩할 수 있다.
 //        바인딩 예시 :/board/list/?page=1&size=10&sort=id,desc
-        Page<BoardListDto> boardPage = boardService.findBoardList(pageable);
+        Page<BoardListDto> boardPage = boardService.findBoardList(pageRequest);
+
+        PageBlock<BoardListDto> pageBlock = new PageBlock<>(5, pageRequest, boardPage);
 
 //        Page의 주요 메소드
         log.info("content list : {}", boardPage.getContent());
@@ -52,11 +63,15 @@ public class BoardController {
         log.info("sort : {}", boardPage.getSort());
 
         model.addAttribute("boardPages", boardPage);
-
+        model.addAttribute("pageBlock", pageBlock);
         return "board/list";
     }
-    @GetMapping("/detail")
-    public String boardDetail(){
+    @GetMapping("/detail/{boardId}")
+    public String boardDetail( @PathVariable("boardId") Long boardId,Model model){
+
+        BoardDetailDto boardDetail = boardService.findBoardDetail(boardId);
+        model.addAttribute("board",boardDetail);
+
         return "board/detail";
     }
     @GetMapping("/write")

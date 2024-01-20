@@ -78,14 +78,17 @@
           </tr>
           <!--/공지 반복 요소-->
           <!--일반글 반복 요소-->
-          <tr class="board-list-table__normal">
-            <td>1539</td>
+          <!--Page객체를 반복요소로 돌리면 알아서 content List를 뽑아 반복해준다-->
+          <tr class="board-list-table__normal" th:each="board : ${boardPages}">
+            <td th:text="${board.id}"></td>
             <td>일상</td>
-            <td class="board-list-table__writer">aaa</td>
-            <td class="board-list-table__title">test</td>
-            <td>24</td>
+            <td class="board-list-table__writer" th:text="${board.loginId}"></td>
+            <td class="board-list-table__title" >
+              <a th:href="@{/board/detail/{boardId}(boardId = ${board.id})}" th:text="${board.title}"></a>
+            </td>
+            <td th:text="${board.viewCount}"></td>
             <td>0</td>
-            <td>23/12/26</td>
+            <td th:text="${board.createdDate}"></td>
           </tr>
           <!--/일반글 반복 요소-->
           </tbody>
@@ -97,30 +100,20 @@
     <section class="pagination">
       <div class="pagination-wrap">
         <ul class="page-ul">
-          <li>
-            <a href="" class="arrow">
+          <li th:if="${pageBlock.hasPrevBlock()}">
+            <a th:href="@{/board/list(page=${pageBlock.startPage-1})}" class="arrow">
               <img src="/imgs/board/icon/icon_arrow_page_l.png" alt="">
             </a>
           </li>
 
-          <li class="active">
-            <a href="">1</a>
-          </li>
-          <li>
-            <a href="">2</a>
-          </li>
-          <li>
-            <a href="">3</a>
-          </li>
-          <li>
-            <a href="">4</a>
-          </li>
-          <li>
-            <a href="">5</a>
+          <li th:each="i : ${#numbers.sequence(pageBlock.startPage,pageBlock.endPage)}"
+              th:class="${pageBlock.currentPage == i? 'active':''}" >
+            <a th:href="@{/board/list(page=${i})}" th:text="${i}"></a>
           </li>
 
-          <li>
-            <a href="" class="arrow">
+
+          <li th:if="${pageBlock.hasNextBlock()}">
+            <a th:href="@{/board/list(page=${pageBlock.endPage+1})}" class="arrow">
               <img src="/imgs/board/icon/icon_arrow_page_r.png" alt="">
             </a>
           </li>

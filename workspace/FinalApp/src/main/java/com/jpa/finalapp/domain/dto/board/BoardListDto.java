@@ -26,6 +26,6 @@ public class BoardListDto {
     }
 
     public String getCreatedDate(){
-        return createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return createdDate.format(DateTimeFormatter.ofPattern("yy/MM/dd"));
     }
 }
