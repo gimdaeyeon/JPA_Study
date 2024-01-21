@@ -37,6 +37,11 @@
         </div>
       </section>
 
+      <section class="btns" th:classappend="${session.memberId != board.memberId ? 'none' : ''}">
+        <button class="btns__edit" th:data-num="${board.boardId}">수정하기</button>
+        <button class="btns__delete" th:data-num="${board.boardId}">삭제하기</button>
+      </section>
+
       <section class="user-info">
         <div class="user-info__box">
           <div class="user-info__left">

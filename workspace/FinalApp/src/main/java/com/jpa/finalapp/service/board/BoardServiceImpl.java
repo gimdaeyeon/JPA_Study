@@ -82,6 +82,14 @@ public class BoardServiceImpl implements BoardService{
     public Page<BoardListDto> findBoardList(Pageable pageable) {
         return boardRepository.findListWithPage(pageable);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BoardEditDto findEditBoard(Long boardId) {
+        Board foundBoard = boardRepository.findBoardById(boardId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 게시물"));
+        return BoardEditDto.from(foundBoard);
+    }
 }
 
 

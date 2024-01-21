@@ -12,6 +12,6 @@ public interface BoardService {
     void modifyBoard(BoardEditDto boardEditDto);
     void removeBoard(Long boardId);
     BoardDetailDto findBoardDetail(Long boardId);
-
     Page<BoardListDto> findBoardList(Pageable pageable);
+    BoardEditDto findEditBoard(Long boardId);
 }

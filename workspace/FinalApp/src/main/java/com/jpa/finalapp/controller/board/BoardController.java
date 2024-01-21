@@ -1,6 +1,7 @@
 package com.jpa.finalapp.controller.board;
 
 import com.jpa.finalapp.domain.dto.board.BoardDetailDto;
+import com.jpa.finalapp.domain.dto.board.BoardEditDto;
 import com.jpa.finalapp.domain.dto.board.BoardListDto;
 import com.jpa.finalapp.domain.dto.board.BoardWriteDto;
 import com.jpa.finalapp.domain.dto.common.PageBlock;
@@ -9,6 +10,7 @@ import com.jpa.finalapp.service.board.BoardService;
 import com.jpa.finalapp.service.member.MemberService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -105,6 +107,29 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @GetMapping("/modify/{boardId}")
+    public String boardModify(@PathVariable("boardId") Long boardId,Model model){
+        model.addAttribute("board",boardService.findEditBoard(boardId));
+        return "board/edit";
+    }
+    @PostMapping("/modify/{boardId}")
+    public String boardModify(@PathVariable("boardId")Long boardId,
+                            @Valid @ModelAttribute("board") BoardEditDto boardEditDto,
+                                    BindingResult result, Model model){
+        boardEditDto.setBoardId(boardId);
+        if(result.hasErrors()){
+            model.addAttribute("errorMessage","제목과 내용은 필수 입력사항 입니다");
+            return "board/edit";
+        }
+        boardService.modifyBoard(boardEditDto);
+
+        return "redirect:/board/detail/"+boardId;
+    }
+    @GetMapping("/remove/{boardId}")
+    public RedirectView boardDelete(@PathVariable("boardId")Long boardId){
+        boardService.removeBoard(boardId);
+        return new RedirectView("/board/list");
+    }
 
 
 

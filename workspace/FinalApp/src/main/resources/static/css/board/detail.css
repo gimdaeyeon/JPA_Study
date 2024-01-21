@@ -272,3 +272,33 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+/* 수정, 삭제 버튼 */
+.btns{
+    display: flex;
+    justify-content: center;
+}
+
+.btns > button {
+    margin: 100px 0 20px 0;
+    min-width: 155px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 12px 0 12px;
+    font-size: 18px;
+    color: #fff;
+    background: var(--main-color);
+    opacity: 0.5;
+    text-align: center;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btns > button:first-child{
+    margin-right: 30px;
+}
+
+.btns > button:hover{
+    opacity: 1;
+}
