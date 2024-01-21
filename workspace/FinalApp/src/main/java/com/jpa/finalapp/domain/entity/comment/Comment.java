@@ -8,7 +8,7 @@ import lombok.*;
 
 @Entity @Table(name = "JPA_COMMENT")
 @SequenceGenerator(name = "SEQ_COMMENT_GENERATOR", sequenceName = "SEQ_COMMENT")
-@Getter @ToString @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @ToString(exclude = {"member","board"}) @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends Period {
     @Id @GeneratedValue(generator = "SEQ_COMMENT_GENERATOR")
     @Column(name = "COMMENT_ID")

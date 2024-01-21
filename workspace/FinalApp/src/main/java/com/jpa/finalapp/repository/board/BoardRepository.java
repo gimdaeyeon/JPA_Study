@@ -46,7 +46,7 @@ public interface BoardRepository extends JpaRepository<Board,Long>,BoardQueryDsl
                 select new com.jpa.finalapp.domain.dto.board.BoardListDto(
                    b.id, b.title, b.viewCount,b.createdDate, m.loginId
                 )    
-                from Board b join b.member m
+                from Board b left join b.member m
             """)
     Page<BoardListDto> findListWithPage(Pageable pageable);
 
