@@ -52,22 +52,38 @@ public class CommentServiceImpl implements CommentService {
                 .build();
         Comment savedComment = commentRepository.save(comment);
 
-
         return CommentDto.Response.from(savedComment);
     }
 
     @Override
     public CommentDto.Response modifyComment(CommentDto.Request commentDtoReq) {
-        return null;
+        Comment foundComment = commentRepository.findById(commentDtoReq.getCommentId())
+                .orElseThrow(() -> new IllegalStateException("유효하지 않은 댓글"));
+        foundComment.modifyContent(commentDtoReq.getContent());
+
+        return CommentDto.Response.from(foundComment);
     }
 
     @Override
     public void removeComment(Long commentId) {
-
+        commentRepository.deleteById(commentId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CommentDto.Response findOne(Long commentId) {
-        return null;
+        Comment foundComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalStateException("유효하지 않은 댓글"));
+
+        return CommentDto.Response.from(foundComment);
     }
 }
+
+
+
+
+
+
+
+
+

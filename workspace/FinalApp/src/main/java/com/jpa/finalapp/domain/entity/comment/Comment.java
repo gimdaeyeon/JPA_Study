@@ -5,6 +5,7 @@ import com.jpa.finalapp.domain.entity.board.Board;
 import com.jpa.finalapp.domain.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.util.StringUtils;
 
 @Entity @Table(name = "JPA_COMMENT")
 @SequenceGenerator(name = "SEQ_COMMENT_GENERATOR", sequenceName = "SEQ_COMMENT")
@@ -30,4 +31,26 @@ public class Comment extends Period {
         this.board = board;
         this.member = member;
     }
+
+    public void modifyContent(String content){
+        if(StringUtils.hasText(content)){
+            this.content = content;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

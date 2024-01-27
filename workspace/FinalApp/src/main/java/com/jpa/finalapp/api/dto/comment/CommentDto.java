@@ -1,6 +1,7 @@
 package com.jpa.finalapp.api.dto.comment;
 
 import com.jpa.finalapp.domain.entity.comment.Comment;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ public class CommentDto {
     @NoArgsConstructor
     public static class Request{
         private Long commentId;
+        @NotBlank
         private String content;
         private Long boardId;
         private Long memberId;

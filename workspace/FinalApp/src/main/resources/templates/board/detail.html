@@ -91,28 +91,23 @@
           </section>
           <ul class="reply__list-ul">
             <!-- 리플 반복 요소-->
-            <li>
-              <!--닉네임 넣기-->
-              <strong class="reply__writer">닉네임</strong>
-              <!-- 작성일 넣기 -->
-              <span class="reply__date">2023-12-12 20:31:11</span>
-              <!-- 컨텐츠 넣기 -->
-              <p class="reply__content">안녕하세요오오오
-                ㅁㄴㅇㄹㄴㅁㅇㄹ</p>
-              <!--이 버튼은 로그인 한 회원만 보이기 -->
-              <!-- none 클래스 이용하기 -->
-              <button type="button" class="reply__modify-btn">수정</button>
-              <button type="button" class="reply__remove-btn">삭제</button>
-            </li>
+<!--            <li>-->
+<!--              &lt;!&ndash;닉네임 넣기&ndash;&gt;-->
+<!--              <strong class="reply__writer">닉네임</strong>-->
+<!--              &lt;!&ndash; 작성일 넣기 &ndash;&gt;-->
+<!--              <span class="reply__date">2023-12-12 20:31:11</span>-->
+<!--              &lt;!&ndash; 컨텐츠 넣기 &ndash;&gt;-->
+<!--              <p class="reply__content">안녕하세요오오오-->
+<!--                ㅁㄴㅇㄹㄴㅁㅇㄹ</p>-->
+<!--              &lt;!&ndash;이 버튼은 로그인 한 회원만 보이기 &ndash;&gt;-->
+<!--              &lt;!&ndash; none 클래스 이용하기 &ndash;&gt;-->
+<!--              <button type="button" class="reply__modify-btn">수정</button>-->
+<!--              <button type="button" class="reply__remove-btn">삭제</button>-->
+<!--            </li>-->
             <!-- /리플 반복 요소-->
 
             <!-- 샘플-->
-            <li>
-              <strong class="reply__writer">닉네임</strong>
-              <span class="reply__date">2023-12-12 20:31:11</span>
-              <p class="reply__content">안녕하세요오오오
-                ㅁㄴㅇㄹㄴㅁㅇㄹ</p>
-            </li>
+
             <!-- /샘플-->
           </ul>
 
@@ -125,6 +120,7 @@
     </div>
   </main>
 </section>
+<input type="hidden" id="boardId" th:value="${board.boardId}">
 <footer th:replace="~{/fragments/footer :: footer}"></footer>
 </body>
 </html>
