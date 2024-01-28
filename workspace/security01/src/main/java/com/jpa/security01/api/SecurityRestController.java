@@ -10,4 +10,9 @@ public class SecurityRestController {
     public String hello(){
         return "Hello!";
     }
+
+    @GetMapping("/my-login")
+    public String myLogin(){
+        return "my-login";
+    }
 }
