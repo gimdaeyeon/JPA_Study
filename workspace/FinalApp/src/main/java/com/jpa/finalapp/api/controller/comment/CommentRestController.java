@@ -9,7 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,16 +26,17 @@ public class CommentRestController {
     private final CommentService commentService;
 
     @PostMapping("/v1/boards/{boardId}/comments")
-    public void commentWrite(@PathVariable("boardId")Long boardId,
+    public void commentWrite(@PathVariable("boardId") Long boardId,
                              @RequestBody CommentDto.Request commentDtoReq,
-                             @SessionAttribute("memberId") Long memberId){
+                             @SessionAttribute("memberId") Long memberId) {
         commentDtoReq.setBoardId(boardId);
-        commentService.registerComment(commentDtoReq,memberId);
+        commentService.registerComment(commentDtoReq, memberId);
     }
+
     @PostMapping("/v2/boards/{boardId}/comments")
-    public HttpEntity<ApiResponse<Object>> commentWriteV2(@PathVariable("boardId")Long boardId,
+    public HttpEntity<ApiResponse<Object>> commentWriteV2(@PathVariable("boardId") Long boardId,
                                                           @RequestBody CommentDto.Request commentDtoReq,
-                                                          @SessionAttribute("memberId") Long memberId){
+                                                          @SessionAttribute("memberId") Long memberId) {
         commentDtoReq.setBoardId(boardId);
         CommentDto.Response savedDto = commentService.registerComment(commentDtoReq, memberId);
 
@@ -43,17 +47,18 @@ public class CommentRestController {
                 .build();
 //        1. 헤더에 방금 생성된 자원의 위치를 담은 Location을 저장한다.
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION,"http://localhost:10000/api/v5/comments/"+savedDto.getCommentId());
+        headers.add(HttpHeaders.LOCATION, "http://localhost:10000/api/v5/comments/" + savedDto.getCommentId());
 
 //        2. 바디에 방금 생성된 자원을 담아준다.
-        return  ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headers)
                 .body(apiResPonse);
     }
+
     @PostMapping("/v3/boards/{boardId}/comments")
-    public HttpEntity<ApiResponse<Object>> commentWriteV3(@PathVariable("boardId")Long boardId,
+    public HttpEntity<ApiResponse<Object>> commentWriteV3(@PathVariable("boardId") Long boardId,
                                                           @RequestBody CommentDto.Request commentDtoReq,
-                                                          @SessionAttribute("memberId") Long memberId){
+                                                          @SessionAttribute("memberId") Long memberId) {
         commentDtoReq.setBoardId(boardId);
         CommentDto.Response savedDto = commentService.registerComment(commentDtoReq, memberId);
 
@@ -73,7 +78,7 @@ public class CommentRestController {
                 .buildAndExpand(savedDto.getCommentId())
                 .toUri();
 
-        return  ResponseEntity.created(locationUri)
+        return ResponseEntity.created(locationUri)
                 .body(apiResPonse);
     }
 
@@ -81,13 +86,14 @@ public class CommentRestController {
 //    ==============================================================
 
     @GetMapping("/v1/comments/{commentId}")
-    public CommentDto.Response commentFindOneV1(@PathVariable("commentId")Long commentId){
+    public CommentDto.Response commentFindOneV1(@PathVariable("commentId") Long commentId) {
         CommentDto.Response commentDtoResp = commentService.findOne(commentId);
 
         return commentDtoResp;
     }
+
     @GetMapping("/v2/comments/{commentId}")
-    public ResponseEntity<CommentDto.Response> commentFindOneV2(@PathVariable("commentId")Long commentId){
+    public ResponseEntity<CommentDto.Response> commentFindOneV2(@PathVariable("commentId") Long commentId) {
         CommentDto.Response commentDtoResp = commentService.findOne(commentId);
 //        스프링에서는 Servlet을 직접 다루거나 Servlet에서 사용하던 저수준 기술 사용ㅇ을 지양하기 때문에
 //        다른 객체를 지원해준다. -> ResponseEntity
@@ -100,10 +106,11 @@ public class CommentRestController {
         headers.add("Custom-Header", "test");
 
 //        1. 생성자를 통한 직접 생성
-        return new ResponseEntity<>(commentDtoResp,headers, HttpStatus.OK);
+        return new ResponseEntity<>(commentDtoResp, headers, HttpStatus.OK);
     }
+
     @GetMapping("/v3/comments/{commentId}")
-    public ResponseEntity<CommentDto.Response> commentFindOneV3(@PathVariable("commentId")Long commentId){
+    public ResponseEntity<CommentDto.Response> commentFindOneV3(@PathVariable("commentId") Long commentId) {
         CommentDto.Response commentDtoResp = commentService.findOne(commentId);
 
         HttpHeaders headers = new HttpHeaders(); // 헤더는 상황에 따라 생략 가능
@@ -122,7 +129,7 @@ public class CommentRestController {
     }
 
     @GetMapping("/v4/comments/{commentId}")
-    public ResponseEntity<CommentDto.Response> commentFindOneV4(@PathVariable("commentId")Long commentId){
+    public ResponseEntity<CommentDto.Response> commentFindOneV4(@PathVariable("commentId") Long commentId) {
         CommentDto.Response commentDtoResp = commentService.findOne(commentId);
 
         HttpHeaders headers = new HttpHeaders(); // 헤더는 상황에 따라 생략 가능
@@ -140,8 +147,9 @@ public class CommentRestController {
                 .headers(headers)
                 .build();
     }
+
     @GetMapping("/v5/comments/{commentId}")
-    public ResponseEntity<ApiResponse<CommentDto.Response>> commentFindOneV5(@PathVariable("commentId")Long commentId){
+    public ResponseEntity<ApiResponse<CommentDto.Response>> commentFindOneV5(@PathVariable("commentId") Long commentId) {
         CommentDto.Response commentDtoResp = null;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Custom-Header", "test");
@@ -149,20 +157,20 @@ public class CommentRestController {
             commentDtoResp = commentService.findOne(commentId);
             return ResponseEntity.status(HttpStatus.OK)
                     .headers(headers)
-                    .body(new ApiResponse<>(true,"조회완료",commentDtoResp));
+                    .body(new ApiResponse<>(true, "조회완료", commentDtoResp));
         } catch (IllegalStateException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false,"없음",null));
+                    .body(new ApiResponse<>(false, "없음", null));
         }
     }
 
-//    ===========================================================
+    //    ===========================================================
     @PatchMapping("/v1/comments/{commentId}")
-    public ResponseEntity<ApiResponse<CommentDto.Response>> commentModify(@PathVariable("commentId")Long commentId ,
+    public ResponseEntity<ApiResponse<CommentDto.Response>> commentModify(@PathVariable("commentId") Long commentId,
                                                                           @RequestBody @Valid CommentDto.Request commentDtoReq,
-                                                                          BindingResult result){
-        if (result.hasErrors()){
+                                                                          BindingResult result) {
+        if (result.hasErrors()) {
             ApiResponse<CommentDto.Response> apiRespFail = new ApiResponse<>(false, "수정이 실패됐습니다.", null);
             return ResponseEntity.badRequest().body(apiRespFail);
         }
@@ -177,13 +185,13 @@ public class CommentRestController {
         return ResponseEntity.ok(apiResponse);
     }
 
-//    =======================================================
+    //    =======================================================
     @GetMapping("/v1/boards/{boardId}/comments")
     public ResponseEntity<ApiResponse<Slice<CommentDto.Response>>> commentList(@PathVariable("boardId") Long boardId,
-                                                                           @PageableDefault(sort = "id",direction = Sort.Direction.DESC)Pageable pageable){
+                                                                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Slice<CommentDto.Response> commentSlice = commentService.commentListWithSlice(boardId, pageable);
 
-        return ResponseEntity.ok(new ApiResponse<>(true,"목록 조회 성공",commentSlice));
+        return ResponseEntity.ok(new ApiResponse<>(true, "목록 조회 성공", commentSlice));
     }
 
 
