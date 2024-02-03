@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    textarea{
+      width: 400px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+<section class="content-wrap">
+  <main>
+    <!-- 작성 url 넣기 -->
+    <form action="">
+      <section class="write">
+        <table class="write__table">
+          <colgroup>
+            <col style="width:15%">
+            <col style="width:85%">
+          </colgroup>
+          <tbody>
+
+          <tr>
+            <th scope="row">작성자</th>
+            <!-- 닉네임 넣기 -->
+            <td>닉네임</td>
+          </tr>
+          <tr>
+            <th scope="row">제목</th>
+            <td>
+              <input type="text" name="title" id="title">
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">본문</th>
+            <td>
+              <textarea name="content"></textarea>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="write-btns">
+        <button type="submit" id="submit">저장</button>
+      </section>
+    </form>
+
+  </main>
+</section>
+</body>
+</html>

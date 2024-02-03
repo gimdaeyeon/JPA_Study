@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    table{
+      border-spacing: 0;
+      padding: 10px;
+    }
+
+    th{
+      border-bottom: 2px solid black;
+      padding: 5px 10px;
+    }
+
+    td {
+      border-bottom: 1px solid gray;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+<section class="content-wrap">
+  <div class="community-wrap">
+    <main>
+      <section class="title">
+        <h3>자유 게시판</h3>
+      </section>
+
+      <section class="board-list">
+        <table class="board-list-table">
+          <colgroup>
+            <col style="width:5%">
+            <col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <!-- 반복 요소-->
+          <tr class="board-list-table__normal">
+            <td>1539</td>
+            <td>test</td>
+          </tr>
+          <!--/ 반복 요소-->
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+  </div>
+</section>
+</body>
+</html>
