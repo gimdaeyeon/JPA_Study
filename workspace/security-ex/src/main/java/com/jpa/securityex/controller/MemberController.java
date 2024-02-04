@@ -1,6 +1,7 @@
 package com.jpa.securityex.controller;
 
 import com.jpa.securityex.domain.dto.MemberJoinDto;
+import com.jpa.securityex.domain.dto.MemberLoginDto;
 import com.jpa.securityex.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,12 @@ public class MemberController {
     public String login(){
         return "member/login";
     }
+
+    @PostMapping("/login")
+    public void login(MemberLoginDto loginDto){
+        memberService.login(loginDto.getLoginId(),loginDto.getPassword());
+    }
+
     @GetMapping("/join")
     public String join(){
         return "member/join";

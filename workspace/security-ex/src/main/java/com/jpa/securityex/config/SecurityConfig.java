@@ -1,19 +1,23 @@
 package com.jpa.securityex.config;
 
 import com.jpa.securityex.domain.type.Role;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -60,6 +64,9 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/board/list")
                                 .failureUrl("/member/login")
                 );
+
+        http    // 우리가 커스텀한 UserDetailsService를 이용하여 인증처리를 진행하도록 설정해준다.
+                .userDetailsService(userDetailsService);
 
 
         return http.build();

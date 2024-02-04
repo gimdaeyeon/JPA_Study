@@ -12,9 +12,9 @@ spring:
   jpa:
     databasePlatform: org.hibernate.dialect.Oracle10gDialect
     hibernate:
-      ddlAuto: create
+#      ddlAuto: create
     #      ddlAuto: create-drop
-    #      ddlAuto: update
+          ddlAuto: update
     #      ddlAuto: validate
     properties:
       hibernate:
