@@ -23,14 +23,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 //        우리는 기본 인증 공급자가 처리하는 방식을 비슷하게 구현하여 내부 원리를 파악할 것이다.
 
 //        인증 공급자는 UserDetailsService의 loadUserByUsername()을 실행하여 사용자의 정보를 가져온다.
+        String username = authentication.getName();
         String password = (String)authentication.getCredentials();
-        MemberDetails memberDetails = (MemberDetails) userDetailsService.loadUserByUsername(authentication.getName());
+        MemberDetails memberDetails = (MemberDetails) userDetailsService.loadUserByUsername(username);
 
+//        인증 공급자는 PasswordEncoder를 이용하여 비밀번호를 인코딩하고 일치하는지 검사한다.
+//        이 공급자는 로그인 검증을 진행하는 공급자이기 떄문에 DB에 저장된(암호화된) 패스워드와
+//        사용자가 로그인 폼에 입력한(평문) 패스워드가 일치하는지 검사하고 일치하지 안흥면 throw를 이용하여
+//        예외를 발생시킨다.
+//        내부적으로 BadCredentialsException 의 상위타입으로 catch 하기 때문에 해당 예외를 발생시켜야한다.
         if(!passwordEncoder.matches(password,memberDetails.getPassword())){
             throw new BadCredentialsException("비밀번호 불일치");
         }
+
+//        인증에 성공하면 사용자 정보와 권한을 담은 인증객체를 반환한다.
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberDetails, memberDetails.getPassword(), memberDetails.getAuthorities());
 
+//        인증 공급자는 인증을 정상저긍로 처리하면 인증 매니저에게
+//        세부 정보와 권한을 담은 인증객체를 반환함
         return authenticationToken;
     }
 
