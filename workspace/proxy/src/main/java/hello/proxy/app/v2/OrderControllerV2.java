@@ -3,6 +3,7 @@ package hello.proxy.app.v2;
 import hello.proxy.app.v1.OrderControllerV1;
 import hello.proxy.app.v1.OrderServiceV1;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @RequestMapping
 @ResponseBody
+@Controller
 public class OrderControllerV2  {
 
     private final OrderServiceV2 orderService;
